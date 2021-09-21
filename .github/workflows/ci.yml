@@ -12,4 +12,4 @@ jobs:
     - name: Test
       shell: pwsh
       run: | 
-        ./src/run.ps1
+        ./test/run.ps1
