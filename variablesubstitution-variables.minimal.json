@@ -1,0 +1,51 @@
+{
+  "Variables": [
+    {
+      "Name": "HostName",
+      "Value": "someDevHostName",
+      "Scope": {
+        "Environment": [
+          "Environments-1"
+        ]
+      }
+    },
+    {
+      "Name": "HostName",
+      "Value": "someDevTestHostName",
+      "Scope": {
+        "Environment": [
+          "Environments-2"
+        ]
+      }
+    },
+    {
+      "Name": "Url",
+      "Value": "https://#{HostName}.com",
+      "Scope": {}
+    }
+  ],
+  "ScopeValues": {
+    "Environments": [
+      {
+        "Id": "Environments-1",
+        "Name": "Dev"
+      },
+      {
+        "Id": "Environments-2",
+        "Name": "DevTest"
+      },
+      {
+        "Id": "Environments-3",
+        "Name": "AcceptTest"
+      },
+      {
+        "Id": "Environments-5",
+        "Name": "ProdTest"
+      },
+      {
+        "Id": "Environments-6",
+        "Name": "Prod"
+      }
+    ]
+  }
+}
