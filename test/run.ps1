@@ -27,8 +27,8 @@ $needsSubstituting | ForEach-Object {
 
 $GITHUB_ENV = $null
 $targetVariables | ForEach-Object {
-    Write-Output "$($_.Name)=$($_.Value)"
-    Write-Output "$($_.Name)=$($_.Value)" >> $GITHUB_ENV
+    echo "$($_.Name)=$($_.Value)"
+    echo "$($_.Name)=$($_.Value)" >> $Env:GITHUB_ENV
 }
 
 $GITHUB_ENV | format-table
