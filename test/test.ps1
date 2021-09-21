@@ -15,7 +15,7 @@ Describe "Set-JsonVariables" {
         }
 
         It "Does not set Url to DevTest environment" {
-            $result = . $SetJsonVariables Dev $configFile 
+            $result = ./../src/set-jsonvariables.ps1 Dev $configFile 
             $result | Where-Object { $_ -like "*someDevTestHostName*"} | Should -BeFalse 
         }
     }
