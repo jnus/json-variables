@@ -9,7 +9,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Test
+    - name: test
       shell: pwsh
       run: | 
         ./test/run.ps1
+    
+    - name: print
+      run: env
