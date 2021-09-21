@@ -1,6 +1,6 @@
 $ErrorActionPreference = "Stop"
 $here = Split-Path $MyInvocation.MyCommand.Definition
-$json = Get-Content 'variablesubstitution-variables.explicitenvironments.json' | out-string | ConvertFrom-Json
+$json = Get-Content "$here/variablesubstitution-variables.explicitenvironments.json" | out-string | ConvertFrom-Json
 
 $TargetEnvironment = 'DevTest'
 
