@@ -1,17 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<test-results xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="nunit_schema_2.5.xsd" name="Pester" total="2" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2021-09-22" time="00:01:39">
+<test-results xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="nunit_schema_2.5.xsd" name="Pester" total="3" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2021-09-22" time="00:15:56">
   <environment nunit-version="2.5.8.0" machine-name="LF03745" os-version="10.0.19043" clr-version="Unknown" platform="Microsoft Windows 10 Enterprise|C:\WINDOWS|\Device\Harddisk0\Partition4" user="JMN" user-domain="LC" cwd="C:\git\jsonvariables\test" />
   <culture-info current-culture="en-US" current-uiculture="en-US" />
-  <test-suite type="TestFixture" name="Pester" executed="True" result="Success" success="True" time="0.1558" asserts="0" description="Pester">
+  <test-suite type="TestFixture" name="Pester" executed="True" result="Success" success="True" time="0.1819" asserts="0" description="Pester">
     <results>
-      <test-suite type="TestFixture" name="C:\git\jsonvariables\test\test.ps1" executed="True" result="Success" success="True" time="0.1558" asserts="0" description="C:\git\jsonvariables\test\test.ps1">
+      <test-suite type="TestFixture" name="C:\git\jsonvariables\test\test.ps1" executed="True" result="Success" success="True" time="0.1819" asserts="0" description="C:\git\jsonvariables\test\test.ps1">
         <results>
-          <test-suite type="TestFixture" name="Set-JsonVariables" executed="True" result="Success" success="True" time="0.1394" asserts="0" description="Set-JsonVariables">
+          <test-suite type="TestFixture" name="Set-JsonVariables" executed="True" result="Success" success="True" time="0.1647" asserts="0" description="Set-JsonVariables">
             <results>
-              <test-suite type="TestFixture" name="Given config file is valid" executed="True" result="Success" success="True" time="0.0969" asserts="0" description="Given config file is valid">
+              <test-suite type="TestFixture" name="Given config file is valid" executed="True" result="Success" success="True" time="0.1172" asserts="0" description="Given config file is valid">
                 <results>
-                  <test-case description="Sets 2 env. variables for Dev" name="Set-JsonVariables.Given config file is valid.Sets 2 env. variables for Dev" time="0.013" asserts="0" success="True" result="Success" executed="True" />
-                  <test-case description="Sets Url specific to Dev environment" name="Set-JsonVariables.Given config file is valid.Sets Url specific to Dev environment" time="0.0244" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="Sets 2 env. variables for Dev" name="Set-JsonVariables.Given config file is valid.Sets 2 env. variables for Dev" time="0.0158" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="Sets Url specific to Dev environment" name="Set-JsonVariables.Given config file is valid.Sets Url specific to Dev environment" time="0.0103" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="Does not set Url to DevTest environment" name="Set-JsonVariables.Given config file is valid.Does not set Url to DevTest environment" time="0.0246" asserts="0" success="True" result="Success" executed="True" />
                 </results>
               </test-suite>
             </results>
