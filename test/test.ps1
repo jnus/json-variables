@@ -5,7 +5,7 @@ Describe "Set-JsonVariables" {
         $configFile = "$PSScriptRoot/variables.minimal.json"
         
         It "sets 2 env. variables for Dev" {
-            $result = .  Set-JsonVariables Dev $configFile 
+            $result = .  Set-JsonVariables -TargetEnvironment "Dev" -ConfigFile $configFile 
             
             $result.Count | Should -Be 2
         }
