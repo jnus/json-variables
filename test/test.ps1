@@ -1,4 +1,4 @@
-Import-Module  "./../src/JsonVariables.psm1" -Force
+Import-Module  "./src/JsonVariables.psm1" -Force
 Describe "Set-JsonVariables" {
     Context "Given config file is valid" {
 

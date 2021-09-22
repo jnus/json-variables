@@ -13,8 +13,6 @@ jobs:
       shell: pwsh
       run: | 
         gci
-        gci ./jsonvariables/
-        gci ../
         ./test/run.ps1
     
     - name: print
