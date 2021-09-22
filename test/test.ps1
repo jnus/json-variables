@@ -28,7 +28,7 @@ Describe "Set-JsonVariables" {
         It "can parse a minimal configuration file" {
             $configFile = "$PSScriptRoot/variables.minimal.json"
             
-            $result =  Set-JsonVariables Dev $configFile
+            $result =  Set-JsonVariables "Dev" $configFile
             
             $result.Count | Should -Be 2
         }
@@ -36,7 +36,7 @@ Describe "Set-JsonVariables" {
         It "can parse a full configuration file" {
             $configFile = "$PSScriptRoot/variables.full.json"
             
-            $result =  Set-JsonVariables Dev $configFile
+            $result =  Set-JsonVariables "Dev" $configFile
             
             $result.Count | Should -Be 2
         }
@@ -44,7 +44,7 @@ Describe "Set-JsonVariables" {
         It "can parse a configuration file with normalized environments" {
             $configFile = "$PSScriptRoot/variables.full.json"
             
-            $result =  Set-JsonVariables Dev $configFile
+            $result =  Set-JsonVariables 'Dev' $configFile
             
             $result.Count | Should -Be 2
         }

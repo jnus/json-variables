@@ -18,5 +18,5 @@ function RunUnitTests
     }
 }
 
-
+Write-Host "PSScriptRoot: $PSScriptRoot"
 RunUnitTests $here/test.ps1
