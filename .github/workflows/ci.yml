@@ -5,7 +5,7 @@ on: [push, workflow_dispatch]
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    environment: Dev
     steps:
     - uses: actions/checkout@v2
 
