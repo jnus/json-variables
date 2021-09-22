@@ -18,4 +18,4 @@ function RunUnitTests
     }
 }
 
-RunUnitTests $here\test.ps1
+RunUnitTests $here/test.ps1
