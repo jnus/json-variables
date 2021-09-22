@@ -14,6 +14,8 @@ jobs:
       run: | 
         gci
         gci ./src
+        gci ./test
+        gci $PSScriptRoot
         ./test/run.ps1
     
     - name: print
