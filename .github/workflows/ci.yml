@@ -13,6 +13,7 @@ jobs:
       shell: pwsh
       run: | 
         gci
+        gci ./src
         ./test/run.ps1
     
     - name: print
