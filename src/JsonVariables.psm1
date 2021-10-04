@@ -17,7 +17,6 @@ function Set-JsonVariables {
         Write-Error "Config file path does not exit: $ConfigFile"
     }
 
-
     $json = Get-Content $ConfigFile | out-string | ConvertFrom-Json
 
     # Find scoped environment if present
@@ -36,13 +35,15 @@ function Set-JsonVariables {
     }
 
 
-    # Substitute
+    # Substitute variables
     $needsSubstituting | ForEach-Object {
         $m = $_.Value | Select-String -pattern '#{?(.*)}'
         $value = $m.Matches.Groups[1].Value
         $substition = $targetVariables | Where-Object {$_.Name -eq $value}
         $_.Value = $_.Value -replace '#{?(.*)}', $substition.Value
     }
+
+    # Substitute secrets
 
     $envValues = @()
 
@@ -51,8 +52,6 @@ function Set-JsonVariables {
         Write-Output "$($_.Name)=$($_.Value)" >> $Env:GITHUB_ENV
         $envValues += "$($_.Name)=$($_.Value)"
     }
-
-
 
     $Env:GITHUB_ENV | format-table
 

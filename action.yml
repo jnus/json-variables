@@ -14,5 +14,5 @@ runs:
   steps:
     - run: |
         Import-Module ${{ github.action_path }}/src/Set-JsonVariables.psm1 -Force
-        # ${{ github.action_path }}/client.ps1 -IdentityServerClientId ${{ inputs.IdentityServerClientId }} -IdentityServerClientSecret '${{ inputs.IdentityServerClientSecret }}' -IdentityServerUrl '${{ inputs.IdentityServerUrl  }}' -ResourceEnvironment '${{ inputs.ResourceEnvironment }}' -ClientId '${{ inputs.ClientId }}' -ClientName '${{ inputs.ClientName }}' -AllowedScopes '${{ inputs.AllowedScopes }}' -AllowedGrantTypes '${{ inputs.AllowedGrantTypes }}' -RedirectUris '${{ inputs.RedirectUris }}' -PostLogoutRedirectUri '${{ inputs.PostLogoutRedirectUri }}' -RequirePkce $requirePkceParsed -AllowOfflineAccess $allowOfflineAccessParsed -AllowedCorsOrigins '${{ inputs.AllowedCorsOrigins }}' -RoleFilter '${{ inputs.RoleFilter }}' 
+        Set-JsonConfiguration -ConfigFile 
       shell: pwsh
