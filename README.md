@@ -84,9 +84,9 @@ The following variable 'Url' reference the 'HostName' variable and based on the 
 ```
 
 # How to use environment specific environment variables
-The context specific environment variables, rendered in this action, can be reference as any other environment variable in the current job and implicitly be used by other actions such as microsoft/variable-substitution or 
+The context specific environment variables, rendered in this action, can be reference as any other environment variable in the current job and implicitly be used by other actions such as microsoft/variable-substitution.
 
-The following job, deploys a web app and uses the 'HostName' variable to target a particular resource in Azure.
+The following job, deploys a web app and uses the rendered 'HostName' variable to target a particular resource in Azure.
 
 ```yaml
 deploy_to_dev:
