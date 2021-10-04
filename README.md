@@ -51,7 +51,7 @@ The environment specific variables defined variables.json will be created as env
 # Variable substitution.
 The JSON variables action can do variable substitution, hence simplifying the variable maintenance. It's a flexible concept for adjusting the environment variables based on the environment context of your e.g. deployment job. By using a simple expression syntax, variables can be combined and thereby reducing the complexity of maintaning multiple environments. 
 
-The following variable 'Url' reference the 'HostName' variable and based on the environment context, renders the environment variable as either https://someDevHostName or https://someDevTestHostName. 
+The following variable 'Url' reference the 'HostName' variable and based on the environment context, renders the environment variable as either https://someDevHostName.com or https://someDevTestHostName.com. 
 
 ```json
 {
@@ -86,7 +86,7 @@ The following variable 'Url' reference the 'HostName' variable and based on the 
 # How to use environment specific environment variables
 The context specific environment variables, rendered in this action, can be reference as any other environment variable in the current job and implicitly be used by other actions such as microsoft/variable-substitution.
 
-The following job, deploys a web app and uses the rendered 'HostName' variable to target a particular resource in Azure.
+The following job, deploys a web app and uses the scoped 'HostName' variable to target a particular resource in Azure and the substituted 'Url' variable for the availability test parameter (fictive for the sake of this documentation)
 
 ```yaml
 deploy_to_dev:
@@ -102,5 +102,6 @@ deploy_to_dev:
         with:
           app-name: ${{env.HostName}}-api-wa
           package: ./webapp/bin/Release/net5.0/publish
+          availability: ${{env.Url}}
 ```
 
