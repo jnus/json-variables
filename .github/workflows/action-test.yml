@@ -19,3 +19,5 @@ jobs:
       run: env
 
     - name: assert
+      run: Write-host "assert"
+      shell: pwsh
