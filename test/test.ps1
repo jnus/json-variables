@@ -12,7 +12,7 @@ Describe "Set-JsonVariables" {
         $configFile = 'variables.minimal.json' 
                
         It " sets 2 env. variables for Dev" {
-            $result = .  Set-JsonVariables -scope "Dev" -ConfigFile $configFile 
+            $result = Set-JsonVariables -scope "Dev" -configFile $configFile 
             
             $result.Count | Should -Be 2
         }
