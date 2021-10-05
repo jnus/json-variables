@@ -1,5 +1,5 @@
 # GitHub Action - JSON Variables
-Are you tired of repeating and duplicating environment varibles for environment specific deployment steps and having to maintain multiple workflows dependent on the same set of variables? The JSON variables action lets you define all you variable in a single json file, scope to environments and substitute/reuse in new variables, hence simplifying variable configuration maintenance.  ts]
+Are you tired of repeating and duplicating environment varibles for environment specific deployment jobs and having to maintain multiple workflows dependent on the same set of variables? The JSON variables action lets you define all you variable in a single json file, scope to environments and substitute/reuse in new variables, hence simplifying variable configuration maintenance.  ts]
 
 Based on a json file, this GitHub Action will:
   1. Render variables based on the environment context specified in the workflow
