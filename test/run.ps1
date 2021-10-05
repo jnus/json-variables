@@ -18,5 +18,5 @@ function RunUnitTests
     }
 }
 
-Write-Host "PSScriptRoot: $PSScriptRoot"
-RunUnitTests $here/test.ps1
+$path = Join-Path -Path $here -ChildPath 'test.ps1'
+RunUnitTests $path
