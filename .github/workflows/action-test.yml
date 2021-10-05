@@ -30,3 +30,30 @@ jobs:
         Import-Module $module -Force
         Assert-EnvVar -actual ${{env.Url}} -expected 'https://someDevHostName.com' -envVar "env.Url"
         Assert-EnvVar -actual ${{env.HostName}} -expected 'someDevHostName' -envVar "env.HostName"
+  test-action-minimal-devtest:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
+    environment: DevTest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set environment specific variables
+      uses: jnus/json-variables@main
+      with:
+        scope: DevTest
+        configFile: 'variables.minimal.json'
+    
+    - name: print
+      run: env
+
+    - name: assert
+      shell: pwsh
+      run: |
+        $here = Split-Path $MyInvocation.MyCommand.Definition
+        $path = Join-Path -Path ./ -ChildPath 'test'
+        $module = Join-Path -Path $path -ChildPath 'Assertion.psm1'
+        Import-Module $module -Force
+        Assert-EnvVar -actual ${{env.Url}} -expected 'https://someDevTestHostName.com' -envVar "env.Url"
+        Assert-EnvVar -actual ${{env.HostName}} -expected 'someDevTestHostName' -envVar "env.HostName"
