@@ -12,7 +12,9 @@ function Assert-String {
     $ErrorActionPreference = "Stop"
 
     if(!($actual -eq $expected)) {
-        Write-Error "Expected $expected, but found $actual"
+        Write-Error "ERROR: Expected $expected, but found $actual"
+    } else {
+        Write-Host "SUCCESS: Expected $expected, and found $actual"
     }
 
 }
