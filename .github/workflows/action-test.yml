@@ -60,5 +60,11 @@ jobs:
         Assert-EnvVar -actual ${{env.Url}} -expected 'https://someDevTestHostName.com' -envVar "env.Url"
         Assert-EnvVar -actual ${{env.HostName}} -expected 'someDevTestHostName' -envVar "env.HostName"
         Assert-EnvVar -actual ${{secrets.REPO_SECRET_A}} -expected 'repo_secret_a' -envVar "secrets.REPO_SECRET_A"
-        Assert-EnvVar -actual '${{env.ConnectionString}}' -expected 'username=user;password=repo_secret_a' -envVar "env.ConnectionString"
+        # Assert-EnvVar -actual '${{env.ConnectionString}}' -expected 'username=user;password=repo_secret_a' -envVar "env.ConnectionString"
+    
+    - name: Add config file as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        path: "log.log"
+
       
