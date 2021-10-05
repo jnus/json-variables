@@ -24,10 +24,9 @@ jobs:
     - name: assert
       shell: pwsh
       run: |
-        gci
-        gci test
         $here = Split-Path $MyInvocation.MyCommand.Definition
         $path = Join-Path -Path ./ -ChildPath 'test'
         $module = Join-Path -Path $path -ChildPath 'Assertion.psm1'
         Import-Module $module -Force
         Assert-String -actual ${{env.Url}} -expected 'https://someDevHostName.com'
+        Assert-String -actual ${{env.HostName}} -expected 'someDevHostName'
