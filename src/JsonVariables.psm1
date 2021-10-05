@@ -4,28 +4,28 @@ function Set-JsonVariables {
     param (
         [Parameter()]
         [string]
-        $TargetEnvironment,
+        $scope,
         [Parameter()]
         [string]
-        $ConfigFile
+        $configFile
     )
     $ErrorActionPreference = "Stop"
 
     # $here = Split-Path $MyInvocation.MyCommand.Definition
 
-    if(!(Test-Path $ConfigFile)) {
-        Write-Error "Config file path does not exit: $ConfigFile"
+    if(!(Test-Path $configFile)) {
+        Write-Error "Config file path does not exit: $configFile"
     }
 
-    $json = Get-Content $ConfigFile | out-string | ConvertFrom-Json
+    $json = Get-Content $configFile | out-string | ConvertFrom-Json
 
     # Find scoped environment if present
-    $scopedEnvironment = $json.ScopeValues.Environments | Where-Object {$_.Name -eq $targetEnvironment}
+    $scopedEnvironment = $json.ScopeValues.Environments | Where-Object {$_.Name -eq $scope}
 
     # Find scoped variables based on target environment
     $targetVariables = $json.Variables | Where-Object {
         $_.Scope.Environment -contains $scopedEnvironment.Id `
-        -OR $_.Scope.Environment -contains $targetEnvironment `
+        -OR $_.Scope.Environment -contains $scope `
         -OR [bool]($_.Scope.PSobject.Properties.name -match 'Environment') -eq $false 
         }
 

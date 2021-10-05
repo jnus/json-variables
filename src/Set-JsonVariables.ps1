@@ -1,14 +1,13 @@
-[CmdletBinding()]
 param (
     [Parameter()]
     [string]
-    $TargetEnvironment,
+    $scope,
     [Parameter()]
     [string]
-    $ConfigFile
+    $configFile
 )
 $here = Split-Path $MyInvocation.MyCommand.Definition
+$modulePath = Join-Path -Path $here -ChildPath 'JsonVariables.psm1'
+Import-Module $modulePath -Force
 
-Import-Module "$here/JsonVariables.psm1" -Force
-
-Set-JsonVariables -TargetEnvironment $TargetEnvironment -ConfigFile $ConfigFile
+Set-JsonVariables -scope $scope -configFile $configFile
