@@ -13,5 +13,5 @@ runs:
   using: "composite"
   steps:
     - run: |
-        Set-JsonConfiguration.ps1 -context Dev -configFile ../test/variables.minimal.json 
+        ./src/Set-JsonConfiguration.ps1 -context Dev -configFile ../test/variables.minimal.json 
       shell: pwsh
