@@ -51,7 +51,7 @@ jobs:
     - name: assert
       shell: pwsh
       run: |
-        add-content "log.log" '${{env.ConnectionString}}'
+        add-content "log.log" (('${{env.ConnectionString}}').ToUpper())
         Get-content "log.log"
         $here = Split-Path $MyInvocation.MyCommand.Definition
         $path = Join-Path -Path ./ -ChildPath 'test'
