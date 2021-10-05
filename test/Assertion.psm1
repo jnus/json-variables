@@ -1,4 +1,4 @@
-function Assert-String {
+function Assert-EnvVar {
 
     [CmdletBinding()]
     param (
@@ -7,14 +7,18 @@ function Assert-String {
         $actual,
         [Parameter()]
         [string]
-        $expected
+        $expected,
+        [Parameter()]
+        [string]
+        $envVar
+
     )
     $ErrorActionPreference = "Stop"
 
     if(!($actual -eq $expected)) {
-        Write-Error "ERROR: Expected $expected, but found $actual"
+        Write-Error "ERROR: Expected value $expected for $envVar but found value $actual"
     } else {
-        Write-Host "SUCCESS: Expected $expected, and found $actual"
+        Write-Host "SUCCESS: Expected value $expected for $envVar and found value $actual"
     }
 
 }
