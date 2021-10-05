@@ -43,7 +43,7 @@ jobs:
       uses: jnus/json-variables@main
       with:
         scope: DevTest
-        configFile: 'variables.minimal.json'
+        configFile: 'test/variables.minimal.json'
     
     - name: print
       run: env

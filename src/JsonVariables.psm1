@@ -14,10 +14,13 @@ function Set-JsonVariables {
     # $here = Split-Path $MyInvocation.MyCommand.Definition
 
     $config = $configFile
-
     if(!(Test-Path $config)) {
+        write-host "searching..."
         $config = Get-ChildItem -filter $configFile -recurse | Select-Object -First 1
+        $config | write-host
     }
+
+    Write-Host $configFile
 
     if(!(Test-Path $config)) {
         Write-Error "Config file path does not exit: $config"
