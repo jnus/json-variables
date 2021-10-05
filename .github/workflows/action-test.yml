@@ -12,7 +12,7 @@ jobs:
     - name: Set environment specific variables
       uses: jnus/json-variables@main
       with:
-        variableFileName: 'test/variables.minimal.json' #Without extension
+        ConfigFile: 'test/variables.minimal.json' #Without extension
     
     - name: print
       run: env
