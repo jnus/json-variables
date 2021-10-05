@@ -23,4 +23,4 @@ function Assert-EnvVar {
 
 }
 
-Export-ModuleMember -Function Assert-String
+Export-ModuleMember -Function Assert-EnvVar
