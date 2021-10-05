@@ -13,11 +13,13 @@ function Set-JsonVariables {
 
     # $here = Split-Path $MyInvocation.MyCommand.Definition
 
-    if(!(Test-Path $configFile)) {
-        Write-Error "Config file path does not exit: $configFile"
+    $config = Get-ChildItem -filter $configFile -recurse | Select-Object -First 1
+
+    if(!(Test-Path $config)) {
+        Write-Error "Config file path does not exit: $config"
     }
 
-    $json = Get-Content $configFile | out-string | ConvertFrom-Json
+    $json = Get-Content $config | out-string | ConvertFrom-Json
 
     # Find scoped environment if present
     $scopedEnvironment = $json.ScopeValues.Environments | Where-Object {$_.Name -eq $scope}

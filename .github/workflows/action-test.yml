@@ -3,7 +3,7 @@ name: action-test
 on: [push, workflow_dispatch]
 
 jobs:
-  test-action-minimal:
+  test-action-minimal-linux:
     runs-on: ubuntu-latest
     environment: Dev
     steps:
@@ -12,7 +12,10 @@ jobs:
     - name: Set environment specific variables
       uses: jnus/json-variables@main
       with:
-        ConfigFile: 'test/variables.minimal.json' #Without extension
+        scope: Dev
+        configFile: 'variables.minimal.json'
     
     - name: print
       run: env
+
+    - name: assert
