@@ -41,7 +41,7 @@ Now in your environment specific job, you want to render this set of variables a
 
 ```json
 - name: Set environment specific variables
-  uses: jnus/jsonvariables@v1.0
+  uses: jnus/json-variables@v1.0
   with:
     variableFileName: 'variables' #Without extension
 ```

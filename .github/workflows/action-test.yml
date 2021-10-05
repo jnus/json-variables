@@ -1,0 +1,18 @@
+name: action-test
+  
+on: [push, workflow_dispatch]
+
+jobs:
+  test-action-minimal:
+    runs-on: ubuntu-latest
+    environment: Dev
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set environment specific variables
+      uses: jnus/json-variables@main
+      with:
+        variableFileName: 'test/variables.minimal.json' #Without extension
+    
+    - name: print
+      run: env
