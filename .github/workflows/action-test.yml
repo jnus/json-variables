@@ -57,3 +57,4 @@ jobs:
         Import-Module $module -Force
         Assert-EnvVar -actual ${{env.Url}} -expected 'https://someDevTestHostName.com' -envVar "env.Url"
         Assert-EnvVar -actual ${{env.HostName}} -expected 'someDevTestHostName' -envVar "env.HostName"
+        Assert-EnvVar -actual ${{secrets.REPO_SECRET_A}} -expected 'repo_secret_a' -envVar "secrets.REPO_SECRET_A"

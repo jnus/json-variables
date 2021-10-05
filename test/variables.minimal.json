@@ -22,6 +22,12 @@
       "Name": "Url",
       "Value": "https://#{HostName}.com",
       "Scope": {}
+    },
+    {
+      "Name": "SecretA",
+      "Value": "${{secrets.REPO_SECRET_A}}",
+      "Scope": {}
     }
+    
   ]
 }
