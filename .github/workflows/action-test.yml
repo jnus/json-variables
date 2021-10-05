@@ -21,6 +21,8 @@ jobs:
     - name: assert
       shell: pwsh
       run: |
+        gci
+        gci test
         $here = Split-Path $MyInvocation.MyCommand.Definition
         $path = Join-Path -Path $here -ChildPath 'test'
         $module = Join-Path -Path $path -ChildPath 'Assertion.psm1'
