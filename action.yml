@@ -13,6 +13,5 @@ runs:
   using: "composite"
   steps:
     - run: |
-        Import-Module ${{ github.action_path }}/src/Set-JsonVariables.psm1 -Force
-        Set-JsonConfiguration -ConfigFile 
+        ./Set-JsonConfiguration.ps1 -context Dev -configFile ../test/variables.minimal.json 
       shell: pwsh
