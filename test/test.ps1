@@ -4,12 +4,10 @@ $path = Join-Path -Path $base -ChildPath 'src'
 $module = Join-Path -Path $path -ChildPath 'JsonVariables.psm1'
 Import-Module $module -Force
 
-$testPath = $here
-
 Describe "Set-JsonVariables" {
     Context "Given config file is valid" {
 
-        $configFile = 'variables.minimal.json' 
+        $configFile = Join-Path -Path $here -ChildPath 'variables.minimal.json' 
                
         It " sets 2 env. variables for Dev" {
             $result = Set-JsonVariables -scope "Dev" -configFile $configFile 
