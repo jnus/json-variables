@@ -27,6 +27,11 @@
       "Name": "SecretA",
       "Value": "${{secrets.REPO_SECRET_A}}",
       "Scope": {}
+    },
+    {
+      "Name": "ConnectionString",
+      "Value": "username=user;password=#{SecretA}",
+      "Scope": {}
     }
     
   ]
