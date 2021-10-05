@@ -1,11 +1,18 @@
-Import-Module  "$PSScriptRoot/../src/JsonVariables.psm1" -Force
+$here = Split-Path $MyInvocation.MyCommand.Definition
+$base = Join-Path -Path $here -ChildPath '..'
+$path = Join-Path -Path $base -ChildPath 'src'
+$module = Join-Path -Path $path -ChildPath 'JsonVariables.psm1'
+Import-Module $module -Force
+
+$testPath = $here
+
 Describe "Set-JsonVariables" {
     Context "Given config file is valid" {
 
-        $configFile = "$PSScriptRoot/variables.minimal.json"
-        
+        $configFile = 'variables.minimal.json' 
+               
         It " sets 2 env. variables for Dev" {
-            $result = .  Set-JsonVariables -TargetEnvironment "Dev" -ConfigFile $configFile 
+            $result = .  Set-JsonVariables -scope "Dev" -ConfigFile $configFile 
             
             $result.Count | Should -Be 2
         }
@@ -26,7 +33,7 @@ Describe "Set-JsonVariables" {
     Context "Given a series of different configuration types" {
 
         It " can parse a minimal configuration file" {
-            $configFile = "$PSScriptRoot/variables.minimal.json"
+            $configFile = 'variables.minimal.json' 
             
             $result =  Set-JsonVariables "Dev" $configFile
             
@@ -34,7 +41,7 @@ Describe "Set-JsonVariables" {
         }
 
         It " can parse a full configuration file" {
-            $configFile = "$PSScriptRoot/variables.full.json"
+            $configFile = 'variables.full.json' 
             
             $result =  Set-JsonVariables "Dev" $configFile
             
@@ -42,7 +49,7 @@ Describe "Set-JsonVariables" {
         }
 
         It " can parse a configuration file with normalized environments" {
-            $configFile = "$PSScriptRoot/variables.full.json"
+            $configFile = 'variables.environments.json' 
             
             $result =  Set-JsonVariables 'Dev' $configFile
             
