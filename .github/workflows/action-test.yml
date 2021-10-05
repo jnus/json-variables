@@ -59,3 +59,5 @@ jobs:
         Assert-EnvVar -actual ${{env.HostName}} -expected 'someDevTestHostName' -envVar "env.HostName"
         Assert-EnvVar -actual ${{secrets.REPO_SECRET_A}} -expected 'repo_secret_a' -envVar "secrets.REPO_SECRET_A"
         Assert-EnvVar -actual '${{env.ConnectionString}}' -expected 'username=user;password=repo_secret_a' -envVar "env.ConnectionString"
+        add-content "log.log" ${{env.ConnectionString}}
+        Get-content "log.log"
