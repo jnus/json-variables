@@ -8,7 +8,7 @@ Based on a json file, this GitHub Action will:
 
 # Getting started
 
-Add your variable files as json in this folder .github/variables/{variable_file_name}.json
+Add your variable files as json anywhere in the repository
 The format of the file should be:
 
 ```json
@@ -37,13 +37,14 @@ The format of the file should be:
 ```
 
 
-Now in your environment specific job, you want to render this set of variables as environment variables, add the following action:
+Now in your environment specific job, you want to render this set of variables as environment variables, add the following action. You can either specific the full path to json file or just the filename:
 
 ```json
 - name: Set environment specific variables
   uses: jnus/json-variables@v1.0
   with:
-    variableFileName: 'variables' #Without extension
+      scope: Dev
+      configFile: 'variables.minimal.json'
 ```
  
 The environment specific variables defined variables.json will be created as environment variables ready to use for poking e.g. appsettings.json file or as parameters for deploying to misc. compute targets. Note the job must contain an Environment declaration and will only scoped to the particular job.
