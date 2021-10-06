@@ -115,3 +115,5 @@ deploy_to_dev:
 Action is not yet published and currently being tested. It is not intended for production usage yet. Certain features are missing before v1.0 can be created
 - Support org and repo secret substitution
 - Read environment context directly in action and not as a parameter
+
+Topic regarding this -> https://github.community/t/variable-management-in-github/200400
