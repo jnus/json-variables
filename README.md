@@ -8,7 +8,7 @@ Based on a json file, this GitHub Action will:
 
 # Getting started
 
-Add your variable files as json in this folder .github/variables/{variable_file_name}.json
+Add a variable file as json anywhere in the repository.
 The format of the file should be:
 
 ```json
