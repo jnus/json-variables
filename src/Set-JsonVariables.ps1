@@ -4,9 +4,15 @@ param (
     $scope,
     [Parameter()]
     [string]
-    $configFile
+    $configFile,
+    [Parameter()]
+    [System.Object]
+    $secrets
 )
 $here = Split-Path $MyInvocation.MyCommand.Definition
 $modulePath = Join-Path -Path $here -ChildPath 'JsonVariables.psm1'
 Import-Module $modulePath -Force
-Set-JsonVariables -scope $scope -configFile $configFile
+
+$secrets | write-host
+
+# Set-JsonVariables -scope $scope -configFile $configFile

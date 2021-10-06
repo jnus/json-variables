@@ -1,4 +1,3 @@
-# https://confluence.seges.dk/pages/viewpage.action?pageId=166958870
 name: 'jsonvariables'
 description: 'Manage all variables in a json file. Substitute variables based on environment scope and set as environment variables'
 inputs:
@@ -16,5 +15,5 @@ runs:
   using: "composite"
   steps:
     - run: |
-        ./src/Set-JsonVariables.ps1 -scope ${{inputs.scope}} -configFile ${{inputs.configFile}} 
+        ./src/Set-JsonVariables.ps1 -scope ${{inputs.scope}} -configFile ${{inputs.configFile}} -secrets ${{secrets}}
       shell: pwsh
