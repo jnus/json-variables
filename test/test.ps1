@@ -14,7 +14,7 @@ Describe "Set-JsonVariables" {
 
             $result = Set-JsonVariables -scope Dev -configFile $configFile 
             
-            $result.Count | Should -Be 2
+            $result.Count | Should -Be 4
         }
 
         It " sets Url specific to Dev environment" {
@@ -37,7 +37,7 @@ Describe "Set-JsonVariables" {
             
             $result =  Set-JsonVariables "Dev" $configFile
             
-            $result.Count | Should -Be 2
+            $result.Count | Should -Be 4
         }
 
         It " can parse a full configuration file" {
