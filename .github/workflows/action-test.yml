@@ -57,8 +57,8 @@ jobs:
         $path = Join-Path -Path ./ -ChildPath 'test'
         $module = Join-Path -Path $path -ChildPath 'Assertion.psm1'
         Import-Module $module -Force
-        Assert-EnvVar -actual ${{env.Url}} -expected 'https://someDevTestHostName.com' -envVar "env.Url"
-        Assert-EnvVar -actual ${{env.HostName}} -expected 'someDevTestHostName' -envVar "env.HostName"
-        Assert-EnvVar -actual ${{env.SecretA}} -expected 'repo_secret_a' -envVar "env.SecretA"
+        Assert-EnvVar -actual '${{env.Url}}'' -expected 'https://someDevTestHostName.com' -envVar "env.Url"
+        Assert-EnvVar -actual '${{env.HostName}}'' -expected 'someDevTestHostName' -envVar "env.HostName"
+        Assert-EnvVar -actual '${{env.SecretA}}'' -expected 'repo_secret_a' -envVar "env.SecretA"
 
       
