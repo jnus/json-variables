@@ -7,17 +7,18 @@ function Set-JsonVariables {
         $scope,
         [Parameter()]
         [string]
-        $configFile
+        $configFile,
+        [string]
+        $secrets
     )
     $ErrorActionPreference = "Stop"
 
-    # $here = Split-Path $MyInvocation.MyCommand.Definition
+    $secretsList = ($secrets | ConvertFrom-Json -AsHashtable )
 
     $config = $configFile
     if(!(Test-Path $config)) {
         write-host "searching..."
         $config = Get-ChildItem -filter $configFile -recurse | Select-Object -First 1
-        $config | write-host
     }
 
     Write-Host $configFile
@@ -38,6 +39,25 @@ function Set-JsonVariables {
         -OR [bool]($_.Scope.PSobject.Properties.name -match 'Environment') -eq $false 
         }
 
+    if(!($null -eq $secretsList)) {
+
+        # Find variables with secrets needing substitution    
+        $needsSecretSubstituting = $targetVariables | Where-Object {
+        $_.Value -match '\${{secrets.?(.*)}}'
+        }
+
+        # Substitute secrets in variables
+        $needsSecretSubstituting | ForEach-Object {
+            $m = $_.Value | Select-String -pattern '\${{secrets.?(.*)}}'
+            $value = $m.Matches.Groups[1].Value
+            $substition = $targetVariables | Where-Object {$_.Name -eq $value}
+            $substition = $secretsList[$value]
+            $_.Value = $_.Value -replace '\${{secrets.?(.*)}}', $substition
+        }
+    }
+
+   
+
     # Find variables needing substitution    
     $needsSubstituting = $targetVariables | Where-Object {
         $_.Value -match '#{?(.*)}'
@@ -52,7 +72,6 @@ function Set-JsonVariables {
         $_.Value = $_.Value -replace '#{?(.*)}', $substition.Value
     }
 
-    # Substitute secrets
 
     $envValues = @()
 
