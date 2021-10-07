@@ -12,7 +12,7 @@ jobs:
     - name: test
       shell: pwsh
       run: | 
-        # .\test\run.ps1
+        .\test\run.ps1
     
     - name: print
       run: env
