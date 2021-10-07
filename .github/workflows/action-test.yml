@@ -53,7 +53,7 @@ jobs:
     - name: assert
       shell: pwsh
       run: |
-        Add-content secrets.log "${{ toJson(secrets) }}""
+        Add-content secrets.log '${{ toJson(secrets) }}'
         $here = Split-Path $MyInvocation.MyCommand.Definition
         $path = Join-Path -Path ./ -ChildPath 'test'
         $module = Join-Path -Path $path -ChildPath 'Assertion.psm1'
