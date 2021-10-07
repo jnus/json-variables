@@ -5,6 +5,7 @@ param (
     [Parameter()]
     [string]
     $configFile,
+    [Parameter()]
     [string]
     $secrets
 )
