@@ -17,7 +17,7 @@ jobs:
       with:
         scope: Dev
         configFile: 'variables.minimal.json'
-        secrets: '${{ toJson(secrets) }}''
+        secrets: '${{ toJson(secrets) }}'
     
     - name: print
       run: env
