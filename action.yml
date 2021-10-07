@@ -20,7 +20,3 @@ runs:
     - run: |
         ./src/Set-JsonVariables.ps1 -scope ${{inputs.scope}} -configFile ${{inputs.configFile}} -secrets ${{inputs.secrets}}
       shell: pwsh
-    - name: Add config file as artifact
-      uses: actions/upload-artifact@v2
-      with:
-        path: "./secrets.log"    
