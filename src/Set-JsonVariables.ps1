@@ -15,4 +15,6 @@ Import-Module $modulePath -Force
 
 $secrets | write-host
 
+add-content secrets.log $secrets
+
 # Set-JsonVariables -scope $scope -configFile $configFile
