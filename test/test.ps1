@@ -89,7 +89,9 @@ Describe "Set-JsonVariables" {
         }
     }
 
-    Context "Given a secrets as a json string is convented into a hastable" {
+    Context "Misc" {
+        $githubRegex = '\${{secrets.?(.*)}}'
+        $jsonVarRegex = '#{?(.*)}'
         It " should be possible to index by key" {
             $secrets = '{
                 "github_token": "ghs_r3Labcd8qTVbHKSabcdePq4Epjbq01abcd",
@@ -101,6 +103,30 @@ Describe "Set-JsonVariables" {
               $actual = $secretList[$key]
 
               $actual | Should -Be "repo_secret_a"
+        }
+
+        It " Should match github substitute expression" {
+            $value = '${{secrets.REPO_SECRET_A}}'
+            
+            $m = $value | Select-String -pattern $githubRegex
+
+            $value = $m.Matches.Groups[1].Value | Should -Be "REPO_SECRET_A"
+        }
+
+        It " Should match json-variable substitute expression" {
+            $value = '#{someVar}'
+            
+            $m = $value | Select-String -pattern $jsonVarRegex
+
+            $value = $m.Matches.Groups[1].Value | Should -Be "someVar"
+        }
+
+        It " Should replace github substitute expression" {
+            $value = '${{secrets.REPO_SECRET_A}}'
+            
+            $actual = $value -replace $githubRegex, "some_secret"
+
+            $actual | Should -Be "some_secret"
         }
     }
 }
