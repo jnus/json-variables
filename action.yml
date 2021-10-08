@@ -28,6 +28,5 @@ runs:
       with:
         path: "secrets.log"
     - run: |
-        ./src/Set-JsonVariables.ps1 -scope ${{inputs.scope}} -configFile ${{inputs.configFile}} -secrets '${{ toJson(secrets) }}'
-        # '${{inputs.secrets}}'
+        ./src/Set-JsonVariables.ps1 -scope ${{inputs.scope}} -configFile ${{inputs.configFile}} -secrets '${{inputs.secrets}}'
       shell: pwsh

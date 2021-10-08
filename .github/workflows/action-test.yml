@@ -47,7 +47,7 @@ jobs:
       with:
         scope: DevTest
         configFile: 'test/variables.minimal.json'
-        # secrets: '${{ toJson(secrets) }}'
+        secrets: '${{ toJson(secrets) }}'   
     
     - name: print
       run: env
