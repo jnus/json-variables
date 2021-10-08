@@ -9,10 +9,10 @@ Import-Module $module -Force
 Describe "Set-JsonVariables" {
 
     $secrets = '{ "github_token": "ghs_r3LabcthiSisnoTAvaliDtokEN01abcd", "REPO_SECRET_A": "repo_secret_a" }'
-    
+
     Context "Given config file is valid" {
         
-          
+        $secrets = '{ "github_token": "ghs_r3LabcthiSisnoTAvaliDtokEN01abcd", "REPO_SECRET_A": "repo_secret_a" }'
         $configFile = Join-Path -Path $here -ChildPath 'variables.minimal.json' 
                
         It " sets 2 env. variables for Dev" {
