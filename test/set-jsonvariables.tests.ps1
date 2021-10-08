@@ -66,23 +66,18 @@ Describe "Set-JsonVariables" {
     Context "Given a variable contains a secret" {
 
         It " substitutes the secret for entire value" {
-            $configFile = Join-Path -Path $here -ChildPath 'variables.minimal.json' 
-
             $result = Set-JsonVariables -scope Dev -configFile $configFile -secrets $secrets
             
             $result[2] | Should -BeLike "*repo_secret_a"
         }
 
         It " substitutes the secret for partial value" {
-            $configFile = Join-Path -Path $here -ChildPath 'variables.minimal.json' 
-
             $result = Set-JsonVariables -scope Dev -configFile $configFile -secrets $secrets
             
             $result[3] | Should -BeLike "*repo_secret_a*"
         }
 
         It " should not thow an error, when secrets parameter is not provided" {
-            $configFile = Join-Path -Path $here -ChildPath 'variables.minimal.json' 
 
             { Set-JsonVariables -scope Dev -configFile $configFile } | Should -Not -Throw
         }
