@@ -17,6 +17,7 @@ jobs:
       with:
         scope: Dev
         configFile: 'variables.minimal.json'
+        secrets: '${{ toJson(secrets) }}'
     
     - name: print
       run: env
@@ -30,6 +31,8 @@ jobs:
         Import-Module $module -Force
         Assert-EnvVar -actual ${{env.Url}} -expected 'https://someDevHostName.com' -envVar "env.Url"
         Assert-EnvVar -actual ${{env.HostName}} -expected 'someDevHostName' -envVar "env.HostName"
+  
+  
   test-action-minimal-devtest:
     runs-on: ${{ matrix.os }}
     strategy:
@@ -44,20 +47,25 @@ jobs:
       with:
         scope: DevTest
         configFile: 'test/variables.minimal.json'
+        secrets: '${{ toJson(secrets) }}'
     
     - name: print
       run: env
 
-    - name: assert
-      shell: pwsh
-      run: |
-        $here = Split-Path $MyInvocation.MyCommand.Definition
-        $path = Join-Path -Path ./ -ChildPath 'test'
-        $module = Join-Path -Path $path -ChildPath 'Assertion.psm1'
-        Import-Module $module -Force
-        Assert-EnvVar -actual ${{env.Url}} -expected 'https://someDevTestHostName.com' -envVar "env.Url"
-        Assert-EnvVar -actual ${{env.HostName}} -expected 'someDevTestHostName' -envVar "env.HostName"
-        # Assert-EnvVar -actual ${{env.SecretA}} -expected 'repo_secret_a' -envVar "env.SecretA"
-        # Assert-EnvVar -actual '${{env.ConnectionString}}' -expected 'username=user;password=repo_secret_a' -envVar "env.ConnectionString"
+    - name: Add config file as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        path: "secrets.log"
+
+    # - name: assert
+    #   shell: pwsh
+    #   run: |
+    #     $here = Split-Path $MyInvocation.MyCommand.Definition
+    #     $path = Join-Path -Path ./ -ChildPath 'test'
+    #     $module = Join-Path -Path $path -ChildPath 'Assertion.psm1'
+    #     Import-Module $module -Force
+    #     Assert-EnvVar -actual '${{env.Url}}' -expected 'https://someDevTestHostName.com' -envVar "env.Url"
+    #     Assert-EnvVar -actual '${{env.HostName}}' -expected 'someDevTestHostName' -envVar "env.HostName"
+    #     Assert-EnvVar -actual '${{env.SecretA}}' -expected 'repo_secret_a' -envVar "env.SecretA"
 
       

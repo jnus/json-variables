@@ -1,12 +1,19 @@
 param (
     [Parameter()]
+    [ValidateNotNullOrEmpty()]
     [string]
     $scope,
     [Parameter()]
+    [ValidateNotNullOrEmpty()]
     [string]
-    $configFile
+    $configFile,
+    [Parameter()]
+    [ValidateNotNullOrEmpty()]
+    [string]
+    $secrets
 )
 $here = Split-Path $MyInvocation.MyCommand.Definition
 $modulePath = Join-Path -Path $here -ChildPath 'JsonVariables.psm1'
 Import-Module $modulePath -Force
-Set-JsonVariables -scope $scope -configFile $configFile
+
+Set-JsonVariables -scope $scope -configFile $configFile -secrets $secrets

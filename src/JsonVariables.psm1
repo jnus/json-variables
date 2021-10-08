@@ -1,26 +1,33 @@
+$regexGithubExpression = '\${{\s*secrets.?(.*)\s*}}'
+$regexJsonVarExpression = '#{\s*?(.*)\s*}'
 function Set-JsonVariables {
 
     [CmdletBinding()]
     param (
         [Parameter()]
+        [ValidateNotNullOrEmpty()]
         [string]
         $scope,
         [Parameter()]
+        [ValidateNotNullOrEmpty()]
         [string]
-        $configFile
+        $configFile,
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
+        [string]
+        $secrets
     )
     $ErrorActionPreference = "Stop"
 
-    # $here = Split-Path $MyInvocation.MyCommand.Definition
+    # Add-Content 'secrets.log' $secrets
+
+    $secretsList = ($secrets | ConvertFrom-Json -AsHashtable )
 
     $config = $configFile
     if(!(Test-Path $config)) {
         write-host "searching..."
         $config = Get-ChildItem -filter $configFile -recurse | Select-Object -First 1
-        $config | write-host
     }
-
-    Write-Host $configFile
 
     if(!(Test-Path $config)) {
         Write-Error "Config file path does not exit: $config"
@@ -38,21 +45,39 @@ function Set-JsonVariables {
         -OR [bool]($_.Scope.PSobject.Properties.name -match 'Environment') -eq $false 
         }
 
+     if(!($null -eq $secretsList)) {
+
+        # Find variables with secrets needing substitution    
+        $needsSecretSubstituting = $targetVariables | Where-Object {
+            $_.Value -match $regexGithubExpression
+        }
+
+        # Substitute secrets in variables
+        $needsSecretSubstituting | ForEach-Object {
+            $m = $_.Value | Select-String -pattern $regexGithubExpression
+            $value = $m.Matches.Groups[1].Value
+            
+            $substition = $secretsList[$value]
+            $_.Value = $_.Value -replace $regexGithubExpression, $substition
+        }
+     }
+
+   
+
     # Find variables needing substitution    
     $needsSubstituting = $targetVariables | Where-Object {
-        $_.Value -match '#{?(.*)}'
+        $_.Value -match $regexJsonVarExpression
     }
 
 
     # Substitute variables
     $needsSubstituting | ForEach-Object {
-        $m = $_.Value | Select-String -pattern '#{?(.*)}'
+        $m = $_.Value | Select-String -pattern $regexJsonVarExpression
         $value = $m.Matches.Groups[1].Value
         $substition = $targetVariables | Where-Object {$_.Name -eq $value}
-        $_.Value = $_.Value -replace '#{?(.*)}', $substition.Value
+        $_.Value = $_.Value -replace $regexJsonVarExpression, $substition.Value
     }
 
-    # Substitute secrets
 
     $envValues = @()
 
@@ -68,3 +93,4 @@ function Set-JsonVariables {
 }
 
 Export-ModuleMember -Function Set-JsonVariables
+Export-ModuleMember -Variable regexGithubExpression, regexJsonVarExpression

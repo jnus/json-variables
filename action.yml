@@ -1,12 +1,14 @@
-# https://confluence.seges.dk/pages/viewpage.action?pageId=166958870
 name: 'jsonvariables'
 description: 'Manage all variables in a json file. Substitute variables based on environment scope and set as environment variables'
 inputs:
   configFile:  # configuration filename
-    description: 'full path and filename of the configuration file'
+    description: 'full path and filename of the configuration file or just the filename'
     required: true
-  scope:  # configuration filename
-    description: 'full path and filename of the configuration file'
+  scope:  # current scope to render the variables for
+    description: 'Current scope - e.g. Dev, DevTest etc.'
+    required: true
+  secrets:  # all secrets as json
+    description: 'All the secrets serialized as json'
     required: true
 outputs:
   random-number:
@@ -15,6 +17,16 @@ outputs:
 runs:
   using: "composite"
   steps:
+    - name: log secrets
+      shell: pwsh
+      run: |
+        write-host '${{inputs.secrets}}'
+        add-content 'secrets.log' '${{inputs.secrets}}'
+
+    - name: Add config file as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        path: "secrets.log"
     - run: |
-        ./src/Set-JsonVariables.ps1 -scope ${{inputs.scope}} -configFile ${{inputs.configFile}} 
+        ./src/Set-JsonVariables.ps1 -scope ${{inputs.scope}} -configFile ${{inputs.configFile}} -secrets '${{inputs.secrets}}'
       shell: pwsh
