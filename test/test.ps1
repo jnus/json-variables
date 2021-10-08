@@ -18,6 +18,7 @@ Describe "Set-JsonVariables" {
         It " sets 2 env. variables for Dev" {
             $configFile = Join-Path -Path $here -ChildPath 'variables.minimal.json' 
 
+            Write-Host "Secrets $secrets"
             $result = Set-JsonVariables -scope Dev -configFile $configFile -secrets $secrets
             
             $result.Count | Should -Be 4
