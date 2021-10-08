@@ -16,4 +16,6 @@ $here = Split-Path $MyInvocation.MyCommand.Definition
 $modulePath = Join-Path -Path $here -ChildPath 'JsonVariables.psm1'
 Import-Module $modulePath -Force
 
-Set-JsonVariables -scope $scope -configFile $configFile -secrets $secrets
+$result = Set-JsonVariables -scope $scope -configFile $configFile -secrets $secrets
+
+return $result
