@@ -12,6 +12,8 @@ jobs:
     - name: test
       shell: pwsh
       run: | 
+        Import-Module './src/JsonVariables.psm1' -Force
+
         $secrets = '{ "github_token": "ghs_r3LabcthiSisnoTAvaliDtokEN01abcd", "REPO_SECRET_A": "repo_secret_a" }'
         $configFile = Join-Path -Path './test/' -ChildPath 'variables.minimal.json'
         $result = Set-JsonVariables -scope 'Dev' -configFile $configFile -secrets $secrets
