@@ -4,12 +4,14 @@ $path = Join-Path -Path $base -ChildPath 'src'
 $module = Join-Path -Path $path -ChildPath 'JsonVariables.psm1'
 Import-Module $module -Force
 
-$secrets = '{
-    "github_token": "ghs_r3LabcthiSisnoTAvaliDtokEN01abcd",
-    "REPO_SECRET_A": "repo_secret_a"
-  }'
+
 
 Describe "Set-JsonVariables" {
+    $secrets = '{
+        "github_token": "ghs_r3LabcthiSisnoTAvaliDtokEN01abcd",
+        "REPO_SECRET_A": "repo_secret_a"
+      }'
+      
     Context "Given config file is valid" {
 
         $configFile = Join-Path -Path $here -ChildPath 'variables.minimal.json' 
