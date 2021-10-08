@@ -10,10 +10,11 @@ function RunUnitTests
 
     Import-Module Pester -ErrorAction Stop
 
-    $testResults = Invoke-Pester -Path $Path -PassThru -OutputFile Test.xml -OutputFormat NUnitXml
+    $testResults = Invoke-Pester -Output Detailed # -OutputFile Test.xml -OutputFormat NUnitXml
 
     if ($testResults.FailedCount -gt 0)
     {
+        $testResults | format-table
         throw 'One or more unit tests failed to pass.  Build aborting.'
     }
 }
