@@ -45,6 +45,7 @@ Now in your environment specific job, you want to render this set of variables a
   with:
     scope: Dev
     configFile: 'variables.minimal.json'
+    secrets: '${{ toJson(secrets) }}'
 ```
  
 The environment specific variables defined variables.json will be created as environment variables ready to use for poking e.g. appsettings.json file or as parameters for deploying to misc. compute targets. ~~Note the job must contain an Environment declaration and will only scoped to the particular job.~~
@@ -98,10 +99,11 @@ deploy_to_dev:
       url: ${{env.Url}}
     steps:
       - name: Set environment specific variables
-        uses: jnus/jsonvariables@v0.1
+        uses: jnus/jsonvariables@main
         with:
             scope: Dev
             configFile: 'variables.minimal.json'
+            secrets: '${{ toJson(secrets) }}'
         ...
       - name: Deploy to Azure WebApp
         uses: azure/webapps-deploy@v2
