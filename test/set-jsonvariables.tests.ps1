@@ -14,7 +14,7 @@ Describe "Set-JsonVariables" {
         It " sets 4 env. variables for Dev" {
   
             $result = Set-JsonVariables -scope 'Dev' -configFile $configFile -secrets $secrets
-            $result | Format-Table
+             
             $result.Count | Should -Be 4
         }
 
