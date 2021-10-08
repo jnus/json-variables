@@ -9,6 +9,7 @@ Import-Module $module -Force
 Describe "Set-JsonVariables" {
 
     $secrets = '{ "github_token": "ghs_r3LabcthiSisnoTAvaliDtokEN01abcd", "REPO_SECRET_A": "repo_secret_a" }'
+    $configFile = Join-Path -Path $here -ChildPath 'variables.minimal.json'
 
     Context "Given config file is valid" {
         
@@ -39,6 +40,9 @@ Describe "Set-JsonVariables" {
 
     Context "Given a series of different configuration types" {
 
+        $secrets = '{ "github_token": "ghs_r3LabcthiSisnoTAvaliDtokEN01abcd", "REPO_SECRET_A": "repo_secret_a" }'
+        $configFile = Join-Path -Path $here -ChildPath 'variables.minimal.json'
+
         It " can parse a minimal configuration file" {
             $configFile = 'variables.minimal.json' 
             
@@ -66,8 +70,9 @@ Describe "Set-JsonVariables" {
 
     Context "Given a variable contains a secret" {
 
-        $configFile = Join-Path -Path $here -ChildPath 'variables.minimal.json' 
-               
+        $secrets = '{ "github_token": "ghs_r3LabcthiSisnoTAvaliDtokEN01abcd", "REPO_SECRET_A": "repo_secret_a" }'
+        $configFile = Join-Path -Path $here -ChildPath 'variables.minimal.json'
+
         It " substitutes the secret for entire value" {
             $configFile = Join-Path -Path $here -ChildPath 'variables.minimal.json' 
 
@@ -92,6 +97,7 @@ Describe "Set-JsonVariables" {
     }
 
     Context "Misc" {
+        $secrets = '{ "github_token": "ghs_r3LabcthiSisnoTAvaliDtokEN01abcd", "REPO_SECRET_A": "repo_secret_a" }'
         $githubRegex = $regexGithubExpression
         $jsonVarRegex = $regexJsonVarExpression
         It " should be possible to index by key" {
