@@ -50,7 +50,7 @@ function Set-JsonVariables {
             $value = $m.Matches.Groups[1].Value
             $substition = $targetVariables | Where-Object {$_.Name -eq $value}
             $substition = $secretsList[$value]
-            $_.Value = $_.Value -replace '\${{secrets.?(.*)}}', $substition
+            $_.Value = $_.Value -replace '\${{secrets.?(.*)}}', 'StaticSubstitution'
         }
     }
 
