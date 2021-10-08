@@ -21,8 +21,6 @@ function Set-JsonVariables {
         $config = Get-ChildItem -filter $configFile -recurse | Select-Object -First 1
     }
 
-    Write-Host $configFile
-
     if(!(Test-Path $config)) {
         Write-Error "Config file path does not exit: $config"
     }
