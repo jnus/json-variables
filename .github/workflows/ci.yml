@@ -4,7 +4,7 @@ on: [push, workflow_dispatch]
 
 jobs:
   unit-test:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     environment: Dev
     steps:
     - uses: actions/checkout@v2
@@ -12,7 +12,7 @@ jobs:
     - name: test
       shell: pwsh
       run: | 
-        .\test\run.ps1
+        ./test/run.ps1
     
     - name: print
       run: env

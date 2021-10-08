@@ -19,13 +19,10 @@ function Set-JsonVariables {
     )
     $ErrorActionPreference = "Stop"
 
-    # Add-Content 'secrets.log' $secrets
-
     $secretsList = ($secrets | ConvertFrom-Json -AsHashtable )
-
     $config = $configFile
+    
     if(!(Test-Path $config)) {
-        write-host "searching..."
         $config = Get-ChildItem -filter $configFile -recurse | Select-Object -First 1
     }
 

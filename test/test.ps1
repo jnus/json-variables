@@ -1,4 +1,4 @@
-$here = Get-Location #Split-Path $MyInvocation.MyCommand.Definition
+$here = Split-Path $MyInvocation.MyCommand.Definition
 $base = Join-Path -Path $here -ChildPath '..'
 $path = Join-Path -Path $base -ChildPath 'src'
 $module = Join-Path -Path $path -ChildPath 'JsonVariables.psm1'
@@ -8,18 +8,15 @@ Import-Module $module -Force
 
 Describe "Set-JsonVariables" {
 
-    $secrets = '{ "github_token": "ghs_r3LabcthiSisnoTAvaliDtokEN01abcd", "REPO_SECRET_A": "repo_secret_a" }'
-    $configFile = Join-Path -Path $here -ChildPath 'variables.minimal.json'
+    $script:secrets = '{ "github_token": "ghs_r3LabcthiSisnoTAvaliDtokEN01abcd", "REPO_SECRET_A": "repo_secret_a" }'
+    $script:configFile = Join-Path -Path $here -ChildPath 'variables.minimal.json'
 
     Context "Given config file is valid" {
         
-        $secrets = '{ "github_token": "ghs_r3LabcthiSisnoTAvaliDtokEN01abcd", "REPO_SECRET_A": "repo_secret_a" }'
-        $configFile = Join-Path -Path $here -ChildPath 'variables.minimal.json' 
-               
         It " sets 2 env. variables for Dev" {
+            $secrets = '{ "github_token": "ghs_r3LabcthiSisnoTAvaliDtokEN01abcd", "REPO_SECRET_A": "repo_secret_a" }'
             $configFile = Join-Path -Path $here -ChildPath 'variables.minimal.json' 
 
-            Write-Host "Secrets $secrets"
             $result = Set-JsonVariables -scope Dev -configFile $configFile -secrets $secrets
             
             $result.Count | Should -Be 4
@@ -70,9 +67,6 @@ Describe "Set-JsonVariables" {
 
     Context "Given a variable contains a secret" {
 
-        $secrets = '{ "github_token": "ghs_r3LabcthiSisnoTAvaliDtokEN01abcd", "REPO_SECRET_A": "repo_secret_a" }'
-        $configFile = Join-Path -Path $here -ChildPath 'variables.minimal.json'
-
         It " substitutes the secret for entire value" {
             $configFile = Join-Path -Path $here -ChildPath 'variables.minimal.json' 
 
@@ -97,9 +91,10 @@ Describe "Set-JsonVariables" {
     }
 
     Context "Misc" {
-        $secrets = '{ "github_token": "ghs_r3LabcthiSisnoTAvaliDtokEN01abcd", "REPO_SECRET_A": "repo_secret_a" }'
-        $githubRegex = $regexGithubExpression
-        $jsonVarRegex = $regexJsonVarExpression
+
+        $script:githubRegex = $regexGithubExpression
+        $script:jsonVarRegex = $regexJsonVarExpression
+
         It " should be possible to index by key" {
             $secrets = '{
                 "github_token": "ghs_r3Labcd8qTVbHKSabcdePq4Epjbq01abcd",
