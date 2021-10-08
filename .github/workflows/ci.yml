@@ -9,26 +9,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: test
-      shell: pwsh
-      run: | 
-        Import-Module './src/JsonVariables.psm1' -Force
-
-        $secrets = '{ "github_token": "ghs_r3LabcthiSisnoTAvaliDtokEN01abcd", "REPO_SECRET_A": "repo_secret_a" }'
-        $configFile = Join-Path -Path './test/' -ChildPath 'variables.minimal.json'
-        $result = Set-JsonVariables -scope 'Dev' -configFile $configFile -secrets $secrets
-        write-host "---------------before-----------------"
-        $result | format-table
-        write-host "---------------after------------------"
-        
-        ./test/run.ps1
-    
-    - name: print
-      run: env
-    
-    - name: unit-test-log
-      shell: pwsh
-      run: Get-Content pester.log
+    # - name: print
+    #   run: env
     
   test-action-minimal-dev:
     needs: unit-test
@@ -47,8 +29,8 @@ jobs:
         configFile: 'variables.minimal.json'
         secrets: '${{ toJson(secrets) }}'
     
-    - name: Print
-      run: env
+    # - name: Print
+    #   run: env
 
     - name: Assert
       shell: pwsh
@@ -77,8 +59,8 @@ jobs:
         configFile: 'test/variables.minimal.json'
         secrets: '${{ toJson(secrets) }}'   
     
-    - name: Print
-      run: env
+    # - name: Print
+    #   run: env
 
     - name: Assert
       shell: pwsh
