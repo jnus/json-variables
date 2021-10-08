@@ -11,147 +11,135 @@ Describe "Set-JsonVariables" {
 
     Context "Given config file is valid" {
         
-        It " sets 4 env. variables for Dev" {
+        it " sets 4 environment variables or more (GH injects object when returning from actions" {
+            $result = Set-JsonVariables -scope 'Dev' -configFile $configFile -secrets $secrets
+            
+            $result.Count | Should -BeGreaterOrEqual 4
+        }
+
+        It " sets HostName to Dev environment" {
   
             $result = Set-JsonVariables -scope 'Dev' -configFile $configFile -secrets $secrets
             
-            add-content pester.log $result
-
-            # No idea why this element is added when running in GH context: 
-            # E.g. /home/runner/work/_temp/_runner_file_commands/set_env_e21b8381-6780-4a8a-b92d-ca3d48eff565
-            $result | Where-Object {$_ -like "/home*" -OR $_ -like "Microsoft.PowerShell*"} | ForEach-Object {$result.Remove($_)}
-            
-            # $result.Count | Should -Be 4
+            $result | Where-Object { $_ -like "HostName=someDevHostName"}
         }
 
-        # It " sets Url specific to Dev environment" {
-        #     $result = Set-JsonVariables Dev $configFile $secrets
+        It " sets Url specific to Dev environment" {
+            $result = Set-JsonVariables Dev $configFile $secrets
                        
-        #     $result | Where-Object { $_ -like "*someDevHostName*"} | Should -BeTrue 
-        # }
+            $result | Where-Object { $_ -like "Url=https://someDevHostName.com"} | Should -BeTrue 
+        }
 
-        # It " does not set Url to DevTest environment" {
-        #     $result =  Set-JsonVariables Dev $configFile $secrets
+        It " does not set Url to DevTest environment" {
+            $result =  Set-JsonVariables Dev $configFile $secrets
             
-        #     $result | Where-Object { $_ -like "*someDevTestHostName*"} | Should -BeFalse 
-        # }
+            $result | Where-Object { $_ -like "*someDevTestHostName*"} | Should -BeFalse 
+        }
     }
 
-#     Context "Given a series of different configuration types" {
+    Context "Given a series of different configuration types" {
 
-#         It " can parse a minimal configuration file" {
-#             $configFile = 'variables.minimal.json' 
+        It " can parse a minimal configuration file" {
+            $configFile = 'variables.minimal.json' 
             
-#             $result =  Set-JsonVariables "Dev" $configFile $secrets
+            $result =  Set-JsonVariables "Dev" $configFile $secrets
+
+            $result.Count | Should -BeGreaterOrEqual 4
+        }
+
+        It " can parse a full configuration file" {
+            $configFile = 'variables.full.json' 
             
-#             # No idea why this element is added when running in GH context: 
-#             # E.g. /home/runner/work/_temp/_runner_file_commands/set_env_e21b8381-6780-4a8a-b92d-ca3d48eff565
-#             $result | Where-Object {$_ -like "/home*"} | ForEach-Object {$result.Remove($_)}
+            $result =  Set-JsonVariables "Dev" $configFile $secrets
 
-#             # $result.Count | Should -Be 4
-#         }
+            $result.Count | Should -BeGreaterOrEqual 2
+        }
 
-#         It " can parse a full configuration file" {
-#             $configFile = 'variables.full.json' 
+        It " can parse a configuration file with normalized environments" {
+            $configFile = 'variables.environments.json' 
             
-#             $result =  Set-JsonVariables "Dev" $configFile $secrets
+            $result =  Set-JsonVariables 'Dev' $configFile $secrets
+
+            $result.Count | Should -BeGreaterOrEqual 2
+        }
+    }
+
+    Context "Given a variable contains a secret" {
+
+        It " substitutes the secret for entire value" {
+            $result = Set-JsonVariables -scope Dev -configFile $configFile -secrets $secrets
             
-#             # No idea why this element is added when running in GH context: 
-#             # E.g. /home/runner/work/_temp/_runner_file_commands/set_env_e21b8381-6780-4a8a-b92d-ca3d48eff565
-#             $result | Where-Object {$_ -like "/home*"} | ForEach-Object {$result.Remove($_)}
+            $result[2] | Should -BeLike "*repo_secret_a"
+        }
 
-#             # $result.Count | Should -Be 2
-#         }
-
-#         It " can parse a configuration file with normalized environments" {
-#             $configFile = 'variables.environments.json' 
+        It " substitutes the secret for partial value" {
+            $result = Set-JsonVariables -scope Dev -configFile $configFile -secrets $secrets
             
-#             $result =  Set-JsonVariables 'Dev' $configFile $secrets
+            $result[3] | Should -BeLike "*repo_secret_a*"
+        }
+
+        It " should not thow an error, when secrets parameter is not provided" {
+
+            { Set-JsonVariables -scope Dev -configFile $configFile } | Should -Not -Throw
+        }
+    }
+
+    Context "Misc" {
+
+        $script:githubRegex = $regexGithubExpression
+        $script:jsonVarRegex = $regexJsonVarExpression
+
+        It " should be possible to index by key" {
+            $secrets = '{
+                "github_token": "ghs_r3Labcd8qTVbHKSabcdePq4Epjbq01abcd",
+                "REPO_SECRET_A": "repo_secret_a"
+              }'
+              $secretList = ($secrets | ConvertFrom-Json -AsHashtable )
+              $key = "REPO_SECRET_A"
+
+              $actual = $secretList[$key]
+
+              $actual | Should -Be "repo_secret_a"
+        }
+
+        It " Should match github substitute expression" {
+            $value = '${{secrets.REPO_SECRET_A}}'
             
-#             # No idea why this element is added when running in GH context: 
-#             # E.g. /home/runner/work/_temp/_runner_file_commands/set_env_e21b8381-6780-4a8a-b92d-ca3d48eff565
-#             $result | Where-Object {$_ -like "/home*"} | ForEach-Object {$result.Remove($_)}
+            $m = $value | Select-String -pattern $githubRegex
 
-#             # $result.Count | Should -Be 2
-#         }
-#     }
+            $value = $m.Matches.Groups[1].Value | Should -Be "REPO_SECRET_A"
+        }
 
-#     Context "Given a variable contains a secret" {
-
-#         It " substitutes the secret for entire value" {
-#             $result = Set-JsonVariables -scope Dev -configFile $configFile -secrets $secrets
+        It " Should match json-variable substitute expression" {
+            $value = '#{someVar}'
             
-#             $result[2] | Should -BeLike "*repo_secret_a"
-#         }
+            $m = $value | Select-String -pattern $jsonVarRegex
 
-#         It " substitutes the secret for partial value" {
-#             $result = Set-JsonVariables -scope Dev -configFile $configFile -secrets $secrets
+            $value = $m.Matches.Groups[1].Value | Should -Be "someVar"
+        }
+
+        It " Should replace github substitute expression" {
+            $value = '${{secrets.REPO_SECRET_A}}'
             
-#             $result[3] | Should -BeLike "*repo_secret_a*"
-#         }
+            $actual = $value -replace $githubRegex, "some_secret"
 
-#         It " should not thow an error, when secrets parameter is not provided" {
+            $actual | Should -Be "some_secret"
+        }
 
-#             { Set-JsonVariables -scope Dev -configFile $configFile } | Should -Not -Throw
-#         }
-#     }
-
-#     Context "Misc" {
-
-#         $script:githubRegex = $regexGithubExpression
-#         $script:jsonVarRegex = $regexJsonVarExpression
-
-#         It " should be possible to index by key" {
-#             $secrets = '{
-#                 "github_token": "ghs_r3Labcd8qTVbHKSabcdePq4Epjbq01abcd",
-#                 "REPO_SECRET_A": "repo_secret_a"
-#               }'
-#               $secretList = ($secrets | ConvertFrom-Json -AsHashtable )
-#               $key = "REPO_SECRET_A"
-
-#               $actual = $secretList[$key]
-
-#               $actual | Should -Be "repo_secret_a"
-#         }
-
-#         It " Should match github substitute expression" {
-#             $value = '${{secrets.REPO_SECRET_A}}'
+        It " Should replace github substitute expression with single white spaces" {
+            $value = '${{ secrets.REPO_SECRET_A }}'
             
-#             $m = $value | Select-String -pattern $githubRegex
+            $actual = $value -replace $githubRegex, "some_secret"
 
-#             $value = $m.Matches.Groups[1].Value | Should -Be "REPO_SECRET_A"
-#         }
+            $actual | Should -Be "some_secret"
+        }
 
-#         It " Should match json-variable substitute expression" {
-#             $value = '#{someVar}'
+        It " Should replace github substitute expression with multiple white spaces" {
+            $value = '${{  secrets.REPO_SECRET_A    }}'
             
-#             $m = $value | Select-String -pattern $jsonVarRegex
+            $actual = $value -replace $githubRegex, "some_secret"
 
-#             $value = $m.Matches.Groups[1].Value | Should -Be "someVar"
-#         }
-
-#         It " Should replace github substitute expression" {
-#             $value = '${{secrets.REPO_SECRET_A}}'
-            
-#             $actual = $value -replace $githubRegex, "some_secret"
-
-#             $actual | Should -Be "some_secret"
-#         }
-
-#         It " Should replace github substitute expression with single white spaces" {
-#             $value = '${{ secrets.REPO_SECRET_A }}'
-            
-#             $actual = $value -replace $githubRegex, "some_secret"
-
-#             $actual | Should -Be "some_secret"
-#         }
-
-#         It " Should replace github substitute expression with multiple white spaces" {
-#             $value = '${{  secrets.REPO_SECRET_A    }}'
-            
-#             $actual = $value -replace $githubRegex, "some_secret"
-
-#             $actual | Should -Be "some_secret"
-#         }
-#     }
+            $actual | Should -Be "some_secret"
+        }
+    }
 }

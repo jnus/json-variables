@@ -10,7 +10,7 @@ function RunUnitTests
 
     Import-Module Pester -ErrorAction Stop
 
-    $testResults = Invoke-Pester # -OutputFile Test.xml -OutputFormat NUnitXml
+    $testResults = Invoke-Pester -output Detailed # -OutputFile Test.xml -OutputFormat NUnitXml
 
     if ($testResults.FailedCount -gt 0)
     {
