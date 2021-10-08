@@ -32,6 +32,12 @@ function Set-JsonVariables {
 
     $json = Get-Content $config | out-string | ConvertFrom-Json
 
+    # Add environment to variable
+    $json.Variables+= @{
+        Name='Environment' 
+        Value=$scope
+        }
+
     # Find scoped environment if present
     $scopedEnvironment = $json.ScopeValues.Environments | Where-Object {$_.Name -eq $scope}
 

@@ -35,6 +35,12 @@ Describe "Set-JsonVariables" {
             
             $result | Where-Object { $_ -like "*someDevTestHostName*"} | Should -BeFalse 
         }
+
+        It " adds Environment variable with the scope value on runtime" {
+            $result = Set-JsonVariables Dev $configFile $secrets
+                       
+            $result | Where-Object { $_ -like "Environment=Dev"} | Should -BeTrue 
+        }
     }
 
     Context "Given a series of different configuration types" {
