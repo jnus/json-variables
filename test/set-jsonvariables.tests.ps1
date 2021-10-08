@@ -19,7 +19,7 @@ Describe "Set-JsonVariables" {
 
             # No idea why this element is added when running in GH context: 
             # E.g. /home/runner/work/_temp/_runner_file_commands/set_env_e21b8381-6780-4a8a-b92d-ca3d48eff565
-            $result | Where-Object {$_ -like "/home*"} | ForEach-Object {$result.Remove($_)}
+            $result | Where-Object {$_ -like "/home*" -OR $_ -like "Microsoft.PowerShell*"} | ForEach-Object {$result.Remove($_)}
             
             # $result.Count | Should -Be 4
         }
