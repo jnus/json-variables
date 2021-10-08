@@ -1,11 +1,14 @@
 param (
     [Parameter()]
+    [ValidateNotNullOrEmpty()]
     [string]
     $scope,
     [Parameter()]
+    [ValidateNotNullOrEmpty()]
     [string]
     $configFile,
     [Parameter()]
+    [ValidateNotNullOrEmpty()]
     [string]
     $secrets
 )

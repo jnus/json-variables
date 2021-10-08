@@ -5,11 +5,15 @@ function Set-JsonVariables {
     [CmdletBinding()]
     param (
         [Parameter()]
+        [ValidateNotNullOrEmpty()]
         [string]
         $scope,
         [Parameter()]
+        [ValidateNotNullOrEmpty()]
         [string]
         $configFile,
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
         [string]
         $secrets
     )
@@ -52,7 +56,7 @@ function Set-JsonVariables {
         $needsSecretSubstituting | ForEach-Object {
             $m = $_.Value | Select-String -pattern $regexGithubExpression
             $value = $m.Matches.Groups[1].Value
-            # $substition = $targetVariables | Where-Object {$_.Name -eq $value}
+            
             $substition = $secretsList[$value]
             $_.Value = $_.Value -replace $regexGithubExpression, $substition
         }
