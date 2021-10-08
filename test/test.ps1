@@ -90,8 +90,8 @@ Describe "Set-JsonVariables" {
     }
 
     Context "Misc" {
-        $githubRegex = '\${{secrets.?(.*)}}'
-        $jsonVarRegex = '#{?(.*)}'
+        $githubRegex = $regexGithubExpression
+        $jsonVarRegex = $regexJsonVarExpression
         It " should be possible to index by key" {
             $secrets = '{
                 "github_token": "ghs_r3Labcd8qTVbHKSabcdePq4Epjbq01abcd",
@@ -123,6 +123,22 @@ Describe "Set-JsonVariables" {
 
         It " Should replace github substitute expression" {
             $value = '${{secrets.REPO_SECRET_A}}'
+            
+            $actual = $value -replace $githubRegex, "some_secret"
+
+            $actual | Should -Be "some_secret"
+        }
+
+        It " Should replace github substitute expression with single white spaces" {
+            $value = '${{ secrets.REPO_SECRET_A }}'
+            
+            $actual = $value -replace $githubRegex, "some_secret"
+
+            $actual | Should -Be "some_secret"
+        }
+
+        It " Should replace github substitute expression with multiple white spaces" {
+            $value = '${{  secrets.REPO_SECRET_A    }}'
             
             $actual = $value -replace $githubRegex, "some_secret"
 

@@ -1,3 +1,5 @@
+$regexGithubExpression = '\${{\s*secrets.?(.*)\s*}}'
+$regexJsonVarExpression = '#{\s*?(.*)\s*}'
 function Set-JsonVariables {
 
     [CmdletBinding()]
@@ -39,37 +41,37 @@ function Set-JsonVariables {
         -OR [bool]($_.Scope.PSobject.Properties.name -match 'Environment') -eq $false 
         }
 
-    # if(!($null -eq $secretsList)) {
+     if(!($null -eq $secretsList)) {
 
         # Find variables with secrets needing substitution    
         $needsSecretSubstituting = $targetVariables | Where-Object {
-        $_.Value -match '\${{secrets.?(.*)}}'
+            $_.Value -match $regexGithubExpression
         }
 
         # Substitute secrets in variables
         $needsSecretSubstituting | ForEach-Object {
-            $m = $_.Value | Select-String -pattern '\${{secrets.?(.*)}}'
+            $m = $_.Value | Select-String -pattern $regexGithubExpression
             $value = $m.Matches.Groups[1].Value
-            $substition = $targetVariables | Where-Object {$_.Name -eq $value}
+            # $substition = $targetVariables | Where-Object {$_.Name -eq $value}
             $substition = $secretsList[$value]
-            $_.Value = $_.Value -replace '\${{secrets.?(.*)}}', 'StaticSubstitution'
+            $_.Value = $_.Value -replace $regexGithubExpression, $substition
         }
-    # }
+     }
 
    
 
     # Find variables needing substitution    
     $needsSubstituting = $targetVariables | Where-Object {
-        $_.Value -match '#{?(.*)}'
+        $_.Value -match $regexJsonVarExpression
     }
 
 
     # Substitute variables
     $needsSubstituting | ForEach-Object {
-        $m = $_.Value | Select-String -pattern '#{?(.*)}'
+        $m = $_.Value | Select-String -pattern $regexJsonVarExpression
         $value = $m.Matches.Groups[1].Value
         $substition = $targetVariables | Where-Object {$_.Name -eq $value}
-        $_.Value = $_.Value -replace '#{?(.*)}', $substition.Value
+        $_.Value = $_.Value -replace $regexJsonVarExpression, $substition.Value
     }
 
 
@@ -87,3 +89,4 @@ function Set-JsonVariables {
 }
 
 Export-ModuleMember -Function Set-JsonVariables
+Export-ModuleMember -Variable regexGithubExpression, regexJsonVarExpression
