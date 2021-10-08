@@ -19,10 +19,10 @@ jobs:
         configFile: 'variables.minimal.json'
         secrets: '${{ toJson(secrets) }}'
     
-    - name: print
+    - name: Print
       run: env
 
-    - name: assert
+    - name: Assert
       shell: pwsh
       run: |
         $here = Split-Path $MyInvocation.MyCommand.Definition
@@ -49,10 +49,10 @@ jobs:
         configFile: 'test/variables.minimal.json'
         secrets: '${{ toJson(secrets) }}'   
     
-    - name: print
+    - name: Print
       run: env
 
-    - name: assert
+    - name: Assert
       shell: pwsh
       run: |
         $here = Split-Path $MyInvocation.MyCommand.Definition
