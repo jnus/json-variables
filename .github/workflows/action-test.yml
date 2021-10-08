@@ -31,6 +31,8 @@ jobs:
         Import-Module $module -Force
         Assert-EnvVar -actual ${{env.Url}} -expected 'https://someDevHostName.com' -envVar "env.Url"
         Assert-EnvVar -actual ${{env.HostName}} -expected 'someDevHostName' -envVar "env.HostName"
+  
+  
   test-action-minimal-devtest:
     runs-on: ${{ matrix.os }}
     strategy:
@@ -39,6 +41,16 @@ jobs:
     environment: DevTest
     steps:
     - uses: actions/checkout@v2
+
+    - name: log secrets
+      shell: pwsh
+      run: |
+        add-content 'secrets.log' '${{ toJson(secrets) }}'
+
+    - name: Add config file as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        path: "secrets.log"
 
     - name: Set environment specific variables
       uses: jnus/json-variables@main
