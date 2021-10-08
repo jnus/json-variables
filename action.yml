@@ -1,11 +1,11 @@
 name: 'jsonvariables'
 description: 'Manage all variables in a json file. Substitute variables based on environment scope and set as environment variables'
 inputs:
-  configFile:  # configuration filename
-    description: 'full path and filename of the configuration file or just the filename'
-    required: true
   scope:  # current scope to render the variables for
     description: 'Current scope - e.g. Dev, DevTest etc.'
+    required: true
+  configFile:  # configuration filename
+    description: 'full path and filename of the configuration file or just the filename'
     required: true
   secrets:  # all secrets as json
     description: 'All the secrets serialized as json'
