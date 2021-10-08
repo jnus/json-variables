@@ -37,7 +37,7 @@ function Set-JsonVariables {
         -OR [bool]($_.Scope.PSobject.Properties.name -match 'Environment') -eq $false 
         }
 
-    if(!($null -eq $secretsList)) {
+    # if(!($null -eq $secretsList)) {
 
         # Find variables with secrets needing substitution    
         $needsSecretSubstituting = $targetVariables | Where-Object {
@@ -52,7 +52,7 @@ function Set-JsonVariables {
             $substition = $secretsList[$value]
             $_.Value = $_.Value -replace '\${{secrets.?(.*)}}', 'StaticSubstitution'
         }
-    }
+    # }
 
    
 
