@@ -17,6 +17,16 @@ outputs:
 runs:
   using: "composite"
   steps:
+    - name: log secrets
+      shell: pwsh
+      run: |
+        write-host '${{inputs.secrets}}'
+        add-content 'secrets.log' '${{inputs.secrets}}'
+
+    - name: Add config file as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        path: "secrets.log"
     - run: |
-        ./src/Set-JsonVariables.ps1 -scope ${{inputs.scope}} -configFile ${{inputs.configFile}} -secrets ${{inputs.secrets}}
+        ./src/Set-JsonVariables.ps1 -scope ${{inputs.scope}} -configFile ${{inputs.configFile}} -secrets '${{inputs.secrets}}'
       shell: pwsh

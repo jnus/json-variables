@@ -42,16 +42,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: log secrets
-      shell: pwsh
-      run: |
-        add-content 'secrets.log' '${{ toJson(secrets) }}'
-
-    - name: Add config file as artifact
-      uses: actions/upload-artifact@v2
-      with:
-        path: "secrets.log"
-
     - name: Set environment specific variables
       uses: jnus/json-variables@main
       with:
