@@ -4,8 +4,6 @@ $path = Join-Path -Path $base -ChildPath 'src'
 $module = Join-Path -Path $path -ChildPath 'JsonVariables.psm1'
 Import-Module $module -Force
 
-
-
 Describe "Set-JsonVariables" {
 
     $script:secrets = '{ "github_token": "ghs_r3LabcthiSisnoTAvaliDtokEN01abcd", "REPO_SECRET_A": "repo_secret_a" }'
