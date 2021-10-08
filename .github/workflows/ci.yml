@@ -3,7 +3,7 @@ name: ci
 on: [push, workflow_dispatch]
 
 jobs:
-  build:
+  unit-test:
     runs-on: ubuntu-latest
     environment: Dev
     steps:

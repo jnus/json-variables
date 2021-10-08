@@ -23,13 +23,13 @@ Describe "Set-JsonVariables" {
         }
 
         It " sets Url specific to Dev environment" {
-            $result = Set-JsonVariables Dev $configFile -secrets $secrets
+            $result = Set-JsonVariables Dev $configFile $secrets
             
             $result | Where-Object { $_ -like "*someDevHostName*"} | Should -BeTrue 
         }
 
         It " does not set Url to DevTest environment" {
-            $result =  Set-JsonVariables Dev $configFile  -secrets $secrets
+            $result =  Set-JsonVariables Dev $configFile $secrets
             
             $result | Where-Object { $_ -like "*someDevTestHostName*"} | Should -BeFalse 
         }
@@ -40,7 +40,7 @@ Describe "Set-JsonVariables" {
         It " can parse a minimal configuration file" {
             $configFile = 'variables.minimal.json' 
             
-            $result =  Set-JsonVariables "Dev" $configFile -secrets $secrets
+            $result =  Set-JsonVariables "Dev" $configFile $secrets
             
             $result.Count | Should -Be 4
         }
@@ -48,7 +48,7 @@ Describe "Set-JsonVariables" {
         It " can parse a full configuration file" {
             $configFile = 'variables.full.json' 
             
-            $result =  Set-JsonVariables "Dev" $configFile -secrets $secrets
+            $result =  Set-JsonVariables "Dev" $configFile $secrets
             
             $result.Count | Should -Be 2
         }
@@ -56,7 +56,7 @@ Describe "Set-JsonVariables" {
         It " can parse a configuration file with normalized environments" {
             $configFile = 'variables.environments.json' 
             
-            $result =  Set-JsonVariables 'Dev' $configFile -secrets $secrets
+            $result =  Set-JsonVariables 'Dev' $configFile $secrets
             
             $result.Count | Should -Be 2
         }
