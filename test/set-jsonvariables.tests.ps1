@@ -69,13 +69,13 @@ Describe "Set-JsonVariables" {
         It " substitutes the secret for entire value" {
             $result = Set-JsonVariables -scope Dev -configFile $configFile -secrets $secrets
             
-            $result[2] | Should -BeLike "*repo_secret_a"
+            $result | Where-Object {$_ -like "SecretA*"} | Should -BeLike "*repo_secret_a"
         }
 
         It " substitutes the secret for partial value" {
             $result = Set-JsonVariables -scope Dev -configFile $configFile -secrets $secrets
             
-            $result[3] | Should -BeLike "*repo_secret_a*"
+            $result | Where-Object {$_ -like "ConnectionString*"} | Should -BeLike "*repo_secret_a*"
         }
 
         It " should not thow an error, when secrets parameter is not provided" {
