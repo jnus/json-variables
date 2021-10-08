@@ -9,13 +9,31 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: test
-      shell: pwsh
-      run: | 
-        ./test/run.ps1
+    # - name: test
+    #   shell: pwsh
+    #   run: | 
+    #     ./test/run.ps1
     
-    - name: print
-      run: env
+    # - name: print
+    #   run: env
+
+    - name: pester tests
+      id: pester_tests
+      uses: zyborg/pester-tests-report@v1
+      with:
+        include_paths: test
+        # exclude_paths: tests/powershell1,tests/powershell2
+        # exclude_tags: skip_ci
+        report_name: module_tests
+        report_title: My Module Tests
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: dump test results
+      shell: pwsh
+      run: |
+        Write-Host 'Total Tests Executed...:  ${{ steps.pester_tests.outputs.total_count }}'
+        Write-Host 'Total Tests PASSED.....:  ${{ steps.pester_tests.outputs.passed_count }}'
+        Write-Host 'Total Tests FAILED.....:  ${{ steps.pester_tests.outputs.failed_count }}'
     
   test-action-minimal-dev:
     needs: unit-test
