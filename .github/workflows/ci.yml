@@ -26,6 +26,10 @@ jobs:
     - name: print
       run: env
     
+    - name: unit-test-log
+      shell: pwsh
+      run: Get-Content pester.log
+    
   test-action-minimal-dev:
     needs: unit-test
     runs-on: ${{ matrix.os }}
