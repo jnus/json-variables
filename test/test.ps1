@@ -13,12 +13,10 @@ Describe "Set-JsonVariables" {
 
     Context "Given config file is valid" {
         
-        It " sets 2 env. variables for Dev" {
-            $secrets = '{ "github_token": "ghs_r3LabcthiSisnoTAvaliDtokEN01abcd", "REPO_SECRET_A": "repo_secret_a" }'
-            $configFile = Join-Path -Path $here -ChildPath 'variables.minimal.json' 
-
-            $result = Set-JsonVariables -scope Dev -configFile $configFile -secrets $secrets
-            
+        It " sets 4 env. variables for Dev" {
+  
+            $result = Set-JsonVariables -scope 'Dev' -configFile $configFile -secrets $secrets
+            $result | Format-Table
             $result.Count | Should -Be 4
         }
 
