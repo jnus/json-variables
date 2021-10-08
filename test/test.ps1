@@ -1,4 +1,4 @@
-$here = Split-Path $MyInvocation.MyCommand.Definition
+$here = Get-Location #Split-Path $MyInvocation.MyCommand.Definition
 $base = Join-Path -Path $here -ChildPath '..'
 $path = Join-Path -Path $base -ChildPath 'src'
 $module = Join-Path -Path $path -ChildPath 'JsonVariables.psm1'
