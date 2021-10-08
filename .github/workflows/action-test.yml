@@ -62,5 +62,6 @@ jobs:
         Assert-EnvVar -actual '${{env.Url}}' -expected 'https://someDevTestHostName.com' -envVar "env.Url"
         Assert-EnvVar -actual '${{env.HostName}}' -expected 'someDevTestHostName' -envVar "env.HostName"
         Assert-EnvVar -actual '${{env.SecretA}}' -expected 'repo_secret_a' -envVar "env.SecretA"
+        Assert-EnvVar -actual '${{env.ConnectionString}}' -expected '"username=user;password=repo_secret_a' -envVar "env.ConnectionString"
 
       
