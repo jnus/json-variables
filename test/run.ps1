@@ -18,5 +18,5 @@ function RunUnitTests
     }
 }
 
-$path = Join-Path -Path $here -ChildPath 'test.ps1'
+$path = Join-Path -Path $here -ChildPath 'set-jsonvariables.tests.ps1'
 RunUnitTests $path
