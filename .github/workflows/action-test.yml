@@ -50,6 +50,11 @@ jobs:
     - name: print
       run: env
 
+    - name: Add config file as artifact
+      uses: actions/upload-artifact@v2
+      with:
+        path: "secrets.log"
+
     # - name: assert
     #   shell: pwsh
     #   run: |

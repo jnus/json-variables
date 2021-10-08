@@ -13,6 +13,8 @@ function Set-JsonVariables {
     )
     $ErrorActionPreference = "Stop"
 
+    Add-Content 'secrets.log' $secrets
+
     $secretsList = ($secrets | ConvertFrom-Json -AsHashtable )
 
     $config = $configFile
