@@ -19,6 +19,8 @@ function Set-JsonVariables {
     )
     $ErrorActionPreference = "Stop"
 
+    gci >> log.log
+
     $secretsList = ($secrets | ConvertFrom-Json -AsHashtable )
     $config = $configFile
     
