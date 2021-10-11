@@ -32,7 +32,11 @@
       "Name": "ConnectionString",
       "Value": "username=user;password=#{SecretA}",
       "Scope": {}
+    },
+    {
+      "Name": "Environment",
+      "Value": "#{Environment}",
+      "Scope": {}
     }
-    
   ]
 }

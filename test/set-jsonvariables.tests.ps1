@@ -88,6 +88,12 @@ Describe "Set-JsonVariables" {
 
             { Set-JsonVariables -scope Dev -configFile $configFile } | Should -Not -Throw
         }
+
+        It " substitutes the Environment substitution" {
+            $result = Set-JsonVariables -scope Dev -configFile $configFile -secrets $secrets
+            
+            $result | Where-Object {$_ -like "Environment*"} | Should -BeLike "*Dev"
+        }
     }
 
     Context "Misc" {
