@@ -37,7 +37,7 @@ The format of the file should be:
 ```
 
 
-Now in your environment specific job, you want to render this set of variables as environment variables, add the following action. The configFile parameter can either be the full path og just the filename. Scope is the environment name, which is case sensitive.:
+Now in your environment specific job, you want to render this set of variables as environment variables, add the following action. The configFile parameter is the full path to the variable file, relative to the repository root path. Scope is the environment name, which is case sensitive.:
 
 ```json
 - name: Set environment specific variables
