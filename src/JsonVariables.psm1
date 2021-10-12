@@ -34,7 +34,7 @@ function Set-JsonVariables {
 
     # Add environment to variable
     $json.Variables += [PSCustomObject]@{
-        Name='Scope.Environment';
+        Name='Environment';
         Value=$scope;
     }
 
