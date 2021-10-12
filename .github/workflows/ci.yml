@@ -18,7 +18,7 @@ jobs:
       uses: dorny/test-reporter@v1
       if: success() || failure()    # run this step even if previous step failed
       with:
-        name: Unit Test Results          # Name of the check run which will be created
+        name: unit test results          # Name of the check run which will be created
         path: testresult.xml    # Path to test results
         reporter: java-junit        # Format of test results
     - name: code coverage
