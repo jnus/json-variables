@@ -35,7 +35,7 @@
     },
     {
       "Name": "Environment",
-      "Value": "#{Environment}",
+      "Value": "#{Scope.Environment}",
       "Scope": {}
     }
   ]

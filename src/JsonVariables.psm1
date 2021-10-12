@@ -33,10 +33,10 @@ function Set-JsonVariables {
     $json = Get-Content $config | out-string | ConvertFrom-Json
 
     # Add environment to variable
-    $json.Variables+= @{
-        Name='Environment' 
-        Value=$scope
-        }
+    $json.Variables += [PSCustomObject]@{
+        Name='Scope.Environment';
+        Value=$scope;
+    }
 
     # Find scoped environment if present
     $scopedEnvironment = $json.ScopeValues.Environments | Where-Object {$_.Name -eq $scope}
@@ -47,6 +47,10 @@ function Set-JsonVariables {
         -OR $_.Scope.Environment -contains $scope `
         -OR [bool]($_.Scope.PSobject.Properties.name -match 'Environment') -eq $false 
         }
+
+    Invoke-ScoreVariables -$targetVariables
+
+    $targetVariables = Get-VariablesByPrecedens -variables $targetVariables
 
      if(!($null -eq $secretsList)) {
 
@@ -95,5 +99,60 @@ function Set-JsonVariables {
     return $envValues
 }
 
-Export-ModuleMember -Function Set-JsonVariables
+ function Get-VariablesByPrecedens {
+    [CmdletBinding()]
+    param (
+        [Parameter()]
+        [PSCustomObject[]]
+        $variables
+    )
+
+    $precedence = @()
+    
+    $groups = $variables | Group-Object -Property Name
+    $groups | Foreach-Object {
+            $precedence += $_.Group | Sort-Object -Property Score -Descending | Select-Object -First 1
+    }
+
+    return $precedence
+}
+function Invoke-ScoreVariables {
+    [CmdletBinding()]
+    param (
+        [Parameter()]
+        [PSCustomObject[]]
+        $variables
+    )
+    $variables | ForEach-Object {
+        $score = Get-Score $_
+        $_ | Add-Member NoteProperty -Name Score -Value $score
+    }
+    return $variables
+}
+
+function Get-Score {
+    [CmdletBinding()]
+    param (
+        [Parameter()]
+        [PSCustomObject]
+        $variable
+    )
+
+    $score = 0
+
+    # Environment Scope
+    if( [bool]($variable.PSobject.Properties.name -match "Scope") -eq $true `
+        -AND [bool]($variable.Scope.PSobject.Properties.name -match "Environment") -eq $true `
+        -AND $variable.Scope.Environment.Length -gt 0) {
+            $score += 100
+    }
+    # No Scope
+    else {
+        $score += 10
+    }
+
+    return $score
+}
+
+Export-ModuleMember -Function Set-JsonVariables, Invoke-ScoreVariables,  Get-Score, Get-VariablesByPrecedens
 Export-ModuleMember -Variable regexGithubExpression, regexJsonVarExpression
