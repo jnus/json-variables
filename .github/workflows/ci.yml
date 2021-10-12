@@ -16,9 +16,17 @@ jobs:
       uses: dorny/test-reporter@v1
       if: success() || failure()    # run this step even if previous step failed
       with:
-        name: JEST Tests            # Name of the check run which will be created
+        name: Unit Tests            # Name of the check run which will be created
         path: testresult.xml    # Path to test results
         reporter: java-junit        # Format of test results
+    - name: code coverage
+      id: jacoco
+      uses: madrapps/jacoco-report@v1.2
+      with:
+        path: ${{ github.workspace }}/coverage.xml
+        token: ${{ secrets.GITHUB_TOKEN }}
+        min-coverage-overall: 40
+        min-coverage-changed-files: 60
   
   test-action-minimal-dev:
     needs: unit-test
