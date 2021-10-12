@@ -8,9 +8,10 @@ jobs:
     environment: Dev
     steps:
     - uses: actions/checkout@v2
-
-    # - name: print
-    #   run: env
+    - name: Unit tests
+      shell: pwsh
+      run: | 
+        ./test/run.ps1
     
   test-action-minimal-dev:
     needs: unit-test
