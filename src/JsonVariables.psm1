@@ -1,5 +1,5 @@
 $regexGithubExpression = '\${{\s*secrets.?(.*)\s*}}'
-$regexJsonVarExpression = '#{\s*?([^{}]*)\s*}'
+$regexJsonVarExpression = '#\{\s*?([^\{\}\|]*)\s*(?:\s*\|\s*)?(\w*)\}'
 function Set-JsonVariables {
 
     [CmdletBinding()]
@@ -160,13 +160,25 @@ function Invoke-SubstituteVariables {
         # Substitute variables
         $needsSubstituting | ForEach-Object {
             $match = $_.Value | Select-String -pattern $regexJsonVarExpression
-            $name = $match.Matches.Groups[1].Value
+            $name = $match.Matches.Groups[1].Value.Trim()
+            $filterExpression = $null
+            if($match.Matches.Groups.Count -gt 2) {
+                $filterExpression = ($match.Matches.Groups[2].Value).ToLower()
+            }
             $substituteValue = $variables | Where-Object {$_.Name -eq $name}
             if(($substituteValue -match $regexJsonVarExpression)) {
                 # do not substitute a value with a substitute expression
                 return 
             }
-            $_.Value = $_.Value -replace $regexJsonVarExpression, $substituteValue.Value
+
+            $value = $substituteValue.Value
+            if($filterExpression -eq 'tolower') {
+                $value = $value.ToLower()
+            } elseif ($filterExpression -eq 'toupper') {
+                $value = $value.ToUpper()
+            }
+
+            $_.Value = $_.Value -replace $regexJsonVarExpression, $value
             $substituted++
         }
         
@@ -175,5 +187,5 @@ function Invoke-SubstituteVariables {
     return $variables
 }
 
-Export-ModuleMember -Function Set-JsonVariables, Invoke-ScoreVariables,  Get-Score, Get-VariablesByPrecedens
+Export-ModuleMember -Function Set-JsonVariables, Invoke-ScoreVariables,  Get-Score, Get-VariablesByPrecedens, Invoke-SubstituteVariables
 Export-ModuleMember -Variable regexGithubExpression, regexJsonVarExpression
