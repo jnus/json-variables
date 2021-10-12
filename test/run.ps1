@@ -18,12 +18,12 @@ function RunUnitTests {
     # $configuration.Filter.ExcludeTag = 'WindowsOnly'
     $configuration.Should.ErrorAction = 'Continue'
     $configuration.CodeCoverage.Enabled = $true
-    $configuration.CodeCoverage.Path = $srcPath
+    $configuration.CodeCoverage.Path = $srcPath 
     $configuration.CodeCoverage.ExcludeTests
     $configuration.Output.Verbosity = 'Detailed'
     $configuration.TestResult.Enabled = $true
     $configuration.TestResult.OutputPath = 'testresult.xml'
-    $configuration.TestResult.OutputFormat = 'NUnitXml'
+    $configuration.TestResult.OutputFormat = 'JUnitXml'
 
     $testResults = Invoke-Pester -Configuration $configuration
 
