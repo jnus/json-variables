@@ -1,5 +1,6 @@
-$here = Split-Path -Parent $MyInvocation.MyCommand.Path
-
+$here = Split-Path -Parent $MyInvocation.MyCommand.Definition
+$rootPath = Join-Path -Path $here -ChildPath '..'
+$srcPath = Join-Path -Path $rootPath -ChildPath 'src'
 function RunUnitTests {
     [CmdletBinding()]
     param (
@@ -17,7 +18,7 @@ function RunUnitTests {
     # $configuration.Filter.ExcludeTag = 'WindowsOnly'
     $configuration.Should.ErrorAction = 'Continue'
     $configuration.CodeCoverage.Enabled = $true
-    $configuration.CodeCoverage.Path = "./../src"
+    $configuration.CodeCoverage.Path = $srcPath
     $configuration.CodeCoverage.ExcludeTests
     $configuration.Output.Verbosity = 'Detailed'
     $configuration.TestResult.Enabled = $true
