@@ -10,7 +10,7 @@ Describe "Set-JsonVariables" {
     $script:secrets = '{ "github_token": "ghs_r3LabcthiSisnoTAvaliDtokEN01abcd", "REPO_SECRET_A": "repo_secret_a" }'
     $script:configFile = Join-Path -Path $here -ChildPath 'variables.minimal.json'
 
-    Context "Given config file is valid" {
+    Context "Set-JsonVariables" {
 
         it " sets 4 environment variables or more (GH injects object when returning from actions" {
             $result = Set-JsonVariables -scope 'Dev' -configFile $configFile -secrets $secrets
@@ -42,9 +42,15 @@ Describe "Set-JsonVariables" {
 
             $result | Where-Object { $_ -like "Environment=Dev"} | Should -BeTrue
         }
+
+        It " substitutes the Environment substitution" {
+            $result = Set-JsonVariables -scope Dev -configFile $configFile -secrets $secrets
+
+            $result | Where-Object {$_ -like "Environment*"} | Should -BeLike "*Dev"
+        }
     }
 
-    Context "Given a series of different configuration types" {
+    Context "Configuration file types" {
 
         It " can parse a minimal configuration file" {
             $configFile = 'variables.minimal.json'
@@ -71,7 +77,7 @@ Describe "Set-JsonVariables" {
         }
     }
 
-    Context "Given a variable contains a secret" {
+    Context "Secrets" {
 
         It " substitutes the secret for entire value" {
             $result = Set-JsonVariables -scope Dev -configFile $configFile -secrets $secrets
@@ -89,15 +95,9 @@ Describe "Set-JsonVariables" {
 
             { Set-JsonVariables -scope Dev -configFile $configFile } | Should -Not -Throw
         }
-
-        It " substitutes the Environment substitution" {
-            $result = Set-JsonVariables -scope Dev -configFile $configFile -secrets $secrets
-
-            $result | Where-Object {$_ -like "Environment*"} | Should -BeLike "*Dev"
-        }
     }
 
-    Context "Misc" {
+    Context "Regex" {
 
         $script:githubRegex = $regexGithubExpression
         $script:jsonVarRegex = $regexJsonVarExpression
@@ -162,11 +162,19 @@ Describe "Set-JsonVariables" {
 
             $actual | Should -Be "lirum larum rum_lerum  Dev.lirum_larum.ram Dev.laj_lurim.lerum"
         }
+
+        It " Should match expression with ToLower expression" {
+            $value = "#{Environment | ToLower}"
+
+            $m = $value | Select-String -pattern $jsonVarRegex
+
+            $value = $m.Matches.Groups[2].Value | Should -Be "ToLower"
+        }
     }
 
     
 
-    Context "Givin a valid variable array" {
+    Context "Scoring" {
         
         It " should score a single variable" {
             $variables = SetupScoreVariables
@@ -247,7 +255,80 @@ Describe "Set-JsonVariables" {
         }
     
     }
-        
 
+    Context "Casing filter expressions" {
+
+        it " substitution without a filter expression should be substituted as is" {
+            $variables = '[
+                {
+                    "Name": "Environment",
+                    "Value": "Dev",
+                },
+                {
+                    "Name": "EnvironmentNotModified",
+                    "Value": "#{Environment}",
+                }]' | ConvertFrom-Json
+            
+            $result = Invoke-SubstituteVariables $variables
+
+            $result | Where-Object {$_.Name -eq "EnvironmentNotModified"} | Where-Object { 
+                $_.Value | Should -Be "Dev"
+            }
+        }
+
+        it " substitution with a ToLower filter expression should be lower case" {
+            $variables = '[
+                {
+                    "Name": "Environment",
+                    "Value": "Dev",
+                },
+                {
+                    "Name": "EnvironmentToLower",
+                    "Value": "#{Environment | ToLower}",
+                }]' | ConvertFrom-Json
+            
+            $result = Invoke-SubstituteVariables $variables
+
+            $result | Where-Object {$_.Name -eq "EnvironmentToLower"} | Where-Object { 
+                $_.Value | Should -Be "dev"
+            }
+        }
+
+        it " substitution with a ToUpper filter expression should be lower case" {
+            $variables = '[
+                {
+                    "Name": "Environment",
+                    "Value": "Dev",
+                },
+                {
+                    "Name": "EnvironmentToUpper",
+                    "Value": "#{Environment | ToUpper}",
+                }]' | ConvertFrom-Json
+            
+            $result = Invoke-SubstituteVariables $variables
+
+            $result | Where-Object {$_.Name -eq "EnvironmentToUpper"} | Where-Object { 
+                $_.Value | Should -Be "DEV"
+            }
+        }
+
+        it " substitution with a ToUpper filter expression, with no spaces, should be lower case" {
+            $variables = '[
+                {
+                    "Name": "Environment",
+                    "Value": "Dev",
+                },
+                {
+                    "Name": "EnvironmentToUpper",
+                    "Value": "#{Environment|ToUpper}",
+                }]' | ConvertFrom-Json
+            
+            $result = Invoke-SubstituteVariables $variables
+
+            $result | Where-Object {$_.Name -eq "EnvironmentToUpper"} | Where-Object { 
+                $_.Value | Should -Be "DEV"
+            }            
+        }
+    }
 }
 

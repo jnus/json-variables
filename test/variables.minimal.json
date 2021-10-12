@@ -42,6 +42,11 @@
       "Name": "MultipleSubstitutions",
       "Value": "lirum larum rum_lerum  #{Environment}.lirum_larum.ram #{Environment}.laj_lurim.lerum",
       "Scope": {}
+    },
+    {
+      "Name": "ToUpperExpression",
+      "Value": "#{Environment}",
+      "Scope": {}
     }
   ]
 }
