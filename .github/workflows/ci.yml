@@ -12,6 +12,8 @@ jobs:
       shell: pwsh
       run: | 
         ./test/run.ps1
+        gci
+        gci ./test
     - name: Test Report
       uses: dorny/test-reporter@v1
       if: success() || failure()    # run this step even if previous step failed
