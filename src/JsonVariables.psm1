@@ -34,7 +34,7 @@ function Set-JsonVariables {
 
     # Add environment to variable
     $json.Variables += [PSCustomObject]@{
-        Name='Environment';
+        Name='Context.Environment';
         Value=$scope;
     }
 
@@ -71,19 +71,7 @@ function Set-JsonVariables {
 
    
 
-    # Find variables needing substitution    
-    $needsSubstituting = $targetVariables | Where-Object {
-        $_.Value -match $regexJsonVarExpression
-    }
-
-
-    # Substitute variables
-    $needsSubstituting | ForEach-Object {
-        $m = $_.Value | Select-String -pattern $regexJsonVarExpression
-        $value = $m.Matches.Groups[1].Value
-        $substition = $targetVariables | Where-Object {$_.Name -eq $value}
-        $_.Value = $_.Value -replace $regexJsonVarExpression, $substition.Value
-    }
+    $targetVariables = Invoke-SubstituteVariables $targetVariables
 
 
     $envValues = @()
@@ -152,6 +140,39 @@ function Get-Score {
     }
 
     return $score
+}
+
+function Invoke-SubstituteVariables {
+    [CmdletBinding()]
+    param (
+        [Parameter()]
+        [PSCustomObject[]]
+        $variables
+    )
+
+     do{
+        $substituted = 0
+        # Find variables needing substitution    
+        $needsSubstituting = $variables | Where-Object {
+            $_.Value -match $regexJsonVarExpression
+        }
+
+        # Substitute variables
+        $needsSubstituting | ForEach-Object {
+            $match = $_.Value | Select-String -pattern $regexJsonVarExpression
+            $name = $match.Matches.Groups[1].Value
+            $substituteValue = $variables | Where-Object {$_.Name -eq $name}
+            if(($substituteValue -match $regexJsonVarExpression)) {
+                # do not substitute a value with a substitute expression
+                return 
+            }
+            $_.Value = $_.Value -replace $regexJsonVarExpression, $substituteValue.Value
+            $substituted++
+        }
+        
+    } while ($substituted -gt 0)
+
+    return $variables
 }
 
 Export-ModuleMember -Function Set-JsonVariables, Invoke-ScoreVariables,  Get-Score, Get-VariablesByPrecedens
