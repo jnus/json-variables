@@ -1,7 +1,6 @@
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 
-function RunUnitTests
-{
+function RunUnitTests {
     [CmdletBinding()]
     param (
         [Parameter(Mandatory)]
@@ -10,10 +9,24 @@ function RunUnitTests
 
     Import-Module Pester -ErrorAction Stop
 
-    $testResults = Invoke-Pester -output Detailed # -OutputFile Test.xml -OutputFormat NUnitXml
+    # get default from static property
+    $configuration = [PesterConfiguration]::Default
+    # assing properties & discover via intellisense
+    # $configuration.Run.Path = 'C:\projects\tst'
+    # $configuration.Filter.Tag = 'Acceptance'
+    # $configuration.Filter.ExcludeTag = 'WindowsOnly'
+    $configuration.Should.ErrorAction = 'Continue'
+    $configuration.CodeCoverage.Enabled = $true
+    $configuration.CodeCoverage.Path = "./../src"
+    $configuration.CodeCoverage.ExcludeTests
+    $configuration.Output.Verbosity = 'Detailed'
+    $configuration.TestResult.Enabled = $true
+    $configuration.TestResult.OutputPath = 'testresult.xml'
+    $configuration.TestResult.OutputFormat = 'NUnitXml'
 
-    if ($testResults.FailedCount -gt 0)
-    {
+    $testResults = Invoke-Pester -Configuration $configuration
+
+    if ($testResults.FailedCount -gt 0) {
         $testResults | format-table
         throw 'One or more unit tests failed to pass.  Build aborting.'
     }
