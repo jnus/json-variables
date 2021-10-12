@@ -37,6 +37,11 @@
       "Name": "Environment",
       "Value": "#{Context.Environment}",
       "Scope": {}
+    },
+    {
+      "Name": "MultipleSubstitutions",
+      "Value": "lirum larum rum_lerum  #{Environment}.lirum_larum.ram #{Environment}.laj_lurim.lerum",
+      "Scope": {}
     }
   ]
 }

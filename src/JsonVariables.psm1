@@ -1,5 +1,5 @@
 $regexGithubExpression = '\${{\s*secrets.?(.*)\s*}}'
-$regexJsonVarExpression = '#{\s*?(.*)\s*}'
+$regexJsonVarExpression = '#{\s*?([^{}]*)\s*}'
 function Set-JsonVariables {
 
     [CmdletBinding()]

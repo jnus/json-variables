@@ -154,6 +154,14 @@ Describe "Set-JsonVariables" {
 
             $actual | Should -Be "some_secret"
         }
+
+        It " Should replace json-variable substitute expressions with multiple substitutions" {
+            $value = 'lirum larum rum_lerum  #{Environment}.lirum_larum.ram #{Environment}.laj_lurim.lerum'
+
+            $actual = $value -replace $jsonVarRegex, "Dev"
+
+            $actual | Should -Be "lirum larum rum_lerum  Dev.lirum_larum.ram Dev.laj_lurim.lerum"
+        }
     }
 
     
