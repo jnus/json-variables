@@ -20,7 +20,7 @@ Describe "Set-JsonVariables" {
 
         It " sets HostName to Dev environment" {
 
-            $result = Set-JsonVariables -scope 'Dev' -configFile $configFile -secrets $secrets
+            $result = Set-JsonVariables -scope Dev -configFile $configFile -secrets $secrets
 
             $result | Where-Object { $_ -like "HostName=someDevHostName"}
         }
