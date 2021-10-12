@@ -48,9 +48,9 @@ function Set-JsonVariables {
         -OR [bool]($_.Scope.PSobject.Properties.name -match 'Environment') -eq $false 
         }
 
-    Invoke-ScoreVariables $targetVariables
+    $targetVariables = Invoke-ScoreVariables $targetVariables
 
-    Get-VariablesByPrecedens -variables $targetVariables
+    $targetVariables = Get-VariablesByPrecedens -variables $targetVariables
 
      if(!($null -eq $secretsList)) {
 
