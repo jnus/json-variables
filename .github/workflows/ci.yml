@@ -21,12 +21,12 @@ jobs:
         name: unit test results          # Name of the check run which will be created
         path: testresult.xml    # Path to test results
         reporter: java-junit        # Format of test results
-    - name: code coverage
-      id: jacoco
-      uses: madrapps/jacoco-report@v1.2
-      with:
-        paths: 'coverage.xml'
-        token: ${{ secrets.GITHUB_TOKEN }}
+    #- name: code coverage
+    #  id: jacoco
+    #  uses: madrapps/jacoco-report@v1.2
+    #  with:
+    #    paths: 'coverage.xml'
+    #    token: ${{ secrets.GITHUB_TOKEN }}
         # min-coverage-overall: 40
         # min-coverage-changed-files: 60
   
