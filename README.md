@@ -37,7 +37,7 @@ The format of the file should be:
 ```
 
 
-Now in your environment specific job, you want to render this set of variables as environment variables, add the following action. The configFile parameter is the full path to the variable file, relative to the repository root path. Scope is the environment name, which is case sensitive.:
+Now in your environment specific job, you want to render this set of variables as environment variables, add the following action. The configFile parameter is the full path to the variable file, relative to the repository root path. Scope is the environment name, which is case sensitive. The secrets parameter need to be either a serialized json string of e.g. the secrets context object, or a user defined serialized object with the same structure:
 
 ```json
 - name: Set environment specific variables
@@ -84,6 +84,24 @@ The following variable 'Url' reference the 'HostName' variable and based on the 
   ]
 }
 ```
+
+# Filter Expressions
+Variable substitution supports filter expressions, to filter or manipulate substitution values. Currently the following filter expressions are supported
+
+| Filter Expression | Syntax   |Description|
+|-------------------|----------|-----------|
+| ToLower | #{Environment \| ToLower } | Sets the entire value to lower casing|
+| ToUpper | #{Environment \| ToUpper }| Sets the entire value to upper casing|
+
+# Action Context Variables
+When configuring the json variables, you have access to a series of context variables, which can be used as substitutions.  
+
+| Variable | Syntax | Description |
+|----------|----------|
+| Context.Environment | #{Context.Environment} | Will substitute current environment context specified as the input parameter 'scope'  |
+| ${{secrets.*}} | ${{secrets.A_REPO_SECRET}} | All the secrets, whether it is organization, environment or repository secrets, are accessible with the Github expression syntax ${{secrets.[variable name]}} | 
+
+
 
 # How to use environment specific environment variables
 The context specific environment variables, rendered in this action, can be reference as any other environment variable in the current job and implicitly be used by other actions such as microsoft/variable-substitution.
