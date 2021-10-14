@@ -97,7 +97,7 @@ Variable substitution supports filter expressions, to filter or manipulate subst
 When configuring the json variables, you have access to a series of context variables, which can be used as substitutions.  
 
 | Variable | Syntax | Description |
-|----------|----------|
+|----------|----------|------------|
 | Context.Environment | #{Context.Environment} | Will substitute current environment context specified as the input parameter 'scope'  | 
 | ${{secrets.*}} | ${{secrets.A_REPO_SECRET}} | All the secrets, whether it is organization, environment or repository secrets, are accessible with the Github expression syntax ${{secrets.[variable name]}} | 
 
