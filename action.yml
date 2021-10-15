@@ -1,4 +1,4 @@
-name: 'jsonvariables'
+name: 'json-variables'
 description: 'Manage all variables in a json file. Substitute variables based on environment scope and set as environment variables'
 inputs:
   scope:  # current scope to render the variables for
