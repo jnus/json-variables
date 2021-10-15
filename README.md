@@ -53,7 +53,7 @@ The environment specific variables defined variables.json will be created as env
 # Variable substitution.
 The JSON variables action can do variable substitution, hence simplifying the variable maintenance. It's a flexible concept for adjusting the environment variables based on the environment context of your e.g. deployment job. By using a simple expression syntax, variables can be combined and thereby reducing the complexity of maintaining multiple environments. 
 
-The following variable 'Url' reference the 'HostName' variable and based on the environment context, renders the environment variable as either https://someDevHostName or https://someDevTestHostName. 
+The following variable 'Url' reference the 'HostName' variable and based on the environment context, renders the environment variable as either https://someDevHostName.com or https://someDevTestHostName.com. 
 
 ```json
 {
