@@ -132,9 +132,12 @@ deploy_to_dev:
 ```
 
 # Status
-Action is not yet published and currently being tested. It is not intended for production usage yet. Certain features are missing before v1.0 can be created
-- Read environment context directly in action and not as a parameter
-- Read secrets context directly in action and not as a parameter
-- Support for multiple json files for e.g. sub-moduling global variable sets. 
+This is still a pre-release and is being testes on a number of projects. A minimal set of features are implemented:
+1. Render variables as environment variables based on environment scope
+2. Substitute variables
+3. Substitute secrets
+4. Filter expressions
+5. Context variables
+6. Variable scoring
 
 Topic regarding this -> https://github.community/t/variable-management-in-github/200400?u=jnus
