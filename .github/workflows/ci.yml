@@ -38,7 +38,7 @@ jobs:
         os: [macos-latest, windows-latest, ubuntu-latest]
     environment: Dev
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@db93318
 
     - name: Set environment specific variables
       uses: jnus/json-variables@main
@@ -46,6 +46,8 @@ jobs:
         scope: Dev
         configFile: 'variables.minimal.json'
         secrets: '${{ toJson(secrets) }}'
+        environmentVariables: '${{ toJson(env) }}'
+        
     
     # - name: Print
     #   run: env
