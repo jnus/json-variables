@@ -10,6 +10,9 @@ inputs:
   secrets:  # all secrets as json
     description: 'All the secrets serialized as json'
     required: true
+  environmentVariables: # all environment variables
+    description: 'Serialized json string of all the environment variables'
+    required: true
 outputs:
   random-number:
     description: "Random number"
@@ -18,5 +21,6 @@ runs:
   using: "composite"
   steps:
     - run: |
+        Write-host ${{inputs.environmentVariables}}
         ${{ github.action_path }}/src/Set-JsonVariables.ps1 -scope ${{inputs.scope}} -configFile ${{inputs.configFile}} -secrets '${{inputs.secrets}}'
       shell: pwsh
