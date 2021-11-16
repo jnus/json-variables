@@ -38,10 +38,10 @@ jobs:
         os: [macos-latest, windows-latest, ubuntu-latest]
     environment: Dev
     steps:
-    - uses: actions/checkout@db93318
+    - uses: actions/checkout@v2
 
     - name: Set environment specific variables
-      uses: jnus/json-variables@main
+      uses: jnus/json-variables@db93318
       with:
         scope: Dev
         configFile: 'variables.minimal.json'
