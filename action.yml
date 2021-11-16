@@ -22,5 +22,6 @@ runs:
   steps:
     - run: |
         Write-host ${{inputs.environmentVariables}}
+        dir env:
         ${{ github.action_path }}/src/Set-JsonVariables.ps1 -scope ${{inputs.scope}} -configFile ${{inputs.configFile}} -secrets '${{inputs.secrets}}'
       shell: pwsh
