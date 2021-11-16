@@ -41,7 +41,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Set environment specific variables
-      uses: jnus/json-variables@db93318
+      uses: jnus/json-variables@db9331890b2d018c2b591de0d55785f978bed1ae
       with:
         scope: Dev
         configFile: 'variables.minimal.json'
