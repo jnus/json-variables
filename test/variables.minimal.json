@@ -44,6 +44,11 @@
       "Scope": {}
     },
     {
+      "Name": "TwoUniqueSubstitutions",
+      "Value": "lirum larum rum_lerum  #{Environment}.lirum_larum.ram #{HostName}.laj_lurim.lerum",
+      "Scope": {}
+    },
+    {
       "Name": "ToUpperExpression",
       "Value": "#{Environment}",
       "Scope": {}

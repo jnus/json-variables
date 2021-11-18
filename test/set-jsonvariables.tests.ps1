@@ -172,8 +172,6 @@ Describe "Set-JsonVariables" {
         }
     }
 
-    
-
     Context "Scoring" {
         
         It " should score a single variable" {
@@ -252,6 +250,16 @@ Describe "Set-JsonVariables" {
             $variable = ($result | Where-Object { $_.Name -eq 'HostName'} | Select-Object -First 1) 
             $variable.Value | Should -Be 'someDevHostName'
 
+        }
+    
+    }
+
+    Context "Given a value with multiple substitutions " {
+    
+        It " should substitute both values correct" {
+            $result =  Set-JsonVariables Dev $configFile $secrets
+
+            $result | Where-Object { $_ -like "*lirum larum rum_lerum  dev.lirum_larum.ram someDevHostName.laj_lurim.lerum*"} | Should -BeTrue    
         }
     
     }
