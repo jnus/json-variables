@@ -93,7 +93,7 @@ Variable substitution supports filter expressions, to filter or manipulate subst
 | ToLower | #{Environment \| ToLower } | Sets the entire value to lower casing|
 | ToUpper | #{Environment \| ToUpper }| Sets the entire value to upper casing|
 
-# Action Context Variables
+# Context Variables
 When configuring the json variables, you have access to a series of context variables, which can be used as substitutions.  
 
 | Variable | Syntax | Description |
