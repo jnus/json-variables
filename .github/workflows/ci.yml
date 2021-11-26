@@ -18,17 +18,9 @@ jobs:
       uses: dorny/test-reporter@v1
       if: success() || failure()    # run this step even if previous step failed
       with:
-        name: unit test results          # Name of the check run which will be created
-        path: testresult.xml    # Path to test results
+        name: unit test results     # Name of the check run which will be created
+        path: testresult.xml        # Path to test results
         reporter: java-junit        # Format of test results
-    #- name: code coverage
-    #  id: jacoco
-    #  uses: madrapps/jacoco-report@v1.2
-    #  with:
-    #    paths: 'coverage.xml'
-    #    token: ${{ secrets.GITHUB_TOKEN }}
-        # min-coverage-overall: 40
-        # min-coverage-changed-files: 60
   
   test-action-minimal-dev:
     needs: unit-test
@@ -47,9 +39,6 @@ jobs:
         configFile: 'variables.minimal.json'
         secrets: '${{ toJson(secrets) }}'
     
-    # - name: Print
-    #   run: env
-
     - name: Assert
       shell: pwsh
       run: |
@@ -76,9 +65,6 @@ jobs:
         scope: DevTest
         configFile: 'test/variables.minimal.json'
         secrets: '${{ toJson(secrets) }}'   
-    
-    # - name: Print
-    #   run: env
 
     - name: Assert
       shell: pwsh

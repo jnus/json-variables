@@ -39,13 +39,13 @@ The format of the file should be:
 
 Now in your environment specific job, you want to render this set of variables as environment variables, add the following action. The configFile parameter is the full path to the variable file, relative to the repository root path. Scope is the environment name, which is case sensitive. The secrets parameter need to be either a serialized json string of e.g. the secrets context object, or a user defined serialized object with the same structure:
 
-```json
+```yaml
 - name: Set environment specific variables
-  uses: jnus/json-variables@v0.3
+  uses: jnus/json-variables@4d729bb7248e73b81440da6bee6824e6102d775c
   with:
     scope: Dev
     configFile: 'variables.minimal.json'
-    secrets: '${{toJson(secrets)}}'
+    secrets: '${{ toJson(secrets) }}'
 ```
  
 The environment specific variables defined variables.json will be created as environment variables ready to use for poking e.g. appsettings.json file or as parameters for deploying to misc. compute targets. 
@@ -117,7 +117,7 @@ deploy_to_dev:
       url: ${{env.Url}}
     steps:
       - name: Set environment specific variables
-        uses: jnus/json-variables@v0.3
+        uses: jnus/json-variables@4d729bb7248e73b81440da6bee6824e6102d775c
         with:
             scope: Dev
             configFile: 'variables.minimal.json'
