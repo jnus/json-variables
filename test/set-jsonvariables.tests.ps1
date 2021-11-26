@@ -254,7 +254,15 @@ Describe "Set-JsonVariables" {
     
     }
 
+    Context "Given a value with multiple substitutions " {
+    
+        It " should substitute both values correct" {
+            $result =  Set-JsonVariables Dev $configFile $secrets
 
+            $result | Where-Object { $_ -like "*lirum larum rum_lerum  Dev.lirum_larum.ram someDevHostName.laj_lurim.lerum*"} | Should -BeTrue    
+        }
+    
+    }
 
     Context "Casing filter expressions" {
 
