@@ -172,6 +172,38 @@ Describe "Set-JsonVariables" {
         }
     }
 
+    Context "Get-RegexJsonVarExpressionForTargetValue" {
+        it " should replace regex with target value" {
+            $expected = '#\{\s*SomeValue\s*(?:\s*\|\s*)?(\w*)\}'
+            
+            $actual = Get-RegexJsonVarExpressionForTargetValue -targetValue 'SomeValue'
+
+            $actual | Should -BeExactly $expected
+        }
+    }
+
+    Context "Invoke-ReplaceWithTargetRegex" {
+        it " should replace a variable with a single substitution" {
+            $targetName = "someName"
+            $substitution = "#{ $targetName }"
+            $targetValue = "someValue"
+
+            $actual = Invoke-ReplaceWithTargetRegex $substitution $targetName $targetValue 
+
+            $actual | Should -BeExactly $targetValue
+        }
+
+        it " should replace the correct substitution, with a variable with a two unique substitution" {
+            $targetName = "someName"
+            $substitution = "#{ $targetName } #{ someOtherName }"
+            $targetValue = "someValue"
+
+            $actual = Invoke-ReplaceWithTargetRegex $substitution $targetName $targetValue 
+
+            $actual | Should -BeExactly "$targetValue #{ someOtherName }"
+        }
+    }
+
     Context "Scoring" {
         
         It " should score a single variable" {
@@ -254,7 +286,15 @@ Describe "Set-JsonVariables" {
     
     }
 
+    Context "Given a value with multiple substitutions " {
+    
+        It " should substitute both values correct" {
+            $result =  Set-JsonVariables Dev $configFile $secrets
 
+            $result | Where-Object { $_ -like "*lirum larum rum_lerum  Dev.lirum_larum.ram someDevHostName.laj_lurim.lerum*"} | Should -BeTrue    
+        }
+    
+    }
 
     Context "Casing filter expressions" {
 
