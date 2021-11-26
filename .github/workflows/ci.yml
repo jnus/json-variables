@@ -41,11 +41,11 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Set environment specific variables
-      uses: jnus/json-variables@main
+      uses: jnus/json-variables@SetSecretsAsDefaultParameterInAction
       with:
         scope: Dev
         configFile: 'variables.minimal.json'
-        secrets: '${{ toJson(secrets) }}'
+        # secrets: '${{ toJson(secrets) }}'
     
     # - name: Print
     #   run: env
@@ -71,11 +71,11 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Set environment specific variables
-      uses: jnus/json-variables@main
+      uses: jnus/json-variables@SetSecretsAsDefaultParameterInAction
       with:
         scope: DevTest
         configFile: 'test/variables.minimal.json'
-        secrets: '${{ toJson(secrets) }}'   
+        # secrets: '${{ toJson(secrets) }}'   
     
     # - name: Print
     #   run: env
