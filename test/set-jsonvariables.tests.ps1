@@ -172,6 +172,38 @@ Describe "Set-JsonVariables" {
         }
     }
 
+    Context "Get-RegexJsonVarExpressionForTargetValue" {
+        it " should replace regex with target value" {
+            $expected = '#\{\s*SomeValue\s*(?:\s*\|\s*)?(\w*)\}'
+            
+            $actual = Get-RegexJsonVarExpressionForTargetValue -targetValue 'SomeValue'
+
+            $actual | Should -BeExactly $expected
+        }
+    }
+
+    Context "Invoke-ReplaceWithTargetRegex" {
+        it " should replace a variable with a single substitution" {
+            $targetName = "someName"
+            $substitution = "#{ $targetName }"
+            $targetValue = "someValue"
+
+            $actual = Invoke-ReplaceWithTargetRegex $substitution $targetName $targetValue 
+
+            $actual | Should -BeExactly $targetValue
+        }
+
+        it " should replace the correct substitution, with a variable with a two unique substitution" {
+            $targetName = "someName"
+            $substitution = "#{ $targetName } #{ someOtherName }"
+            $targetValue = "someValue"
+
+            $actual = Invoke-ReplaceWithTargetRegex $substitution $targetName $targetValue 
+
+            $actual | Should -BeExactly "$targetValue #{ someOtherName }"
+        }
+    }
+
     Context "Scoring" {
         
         It " should score a single variable" {
