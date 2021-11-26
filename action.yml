@@ -9,7 +9,8 @@ inputs:
     required: true
   secrets:  # all secrets as json
     description: 'All the secrets serialized as json'
-    required: true
+    required: false
+    default: '${{toJson(secrets)}}'
 outputs:
   random-number:
     description: "Random number"
