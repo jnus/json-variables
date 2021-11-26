@@ -160,7 +160,7 @@ Describe "Set-JsonVariables" {
 
             $actual = $value -replace $jsonVarRegex, "Dev"
 
-            $actual | Should -Be "lirum larum rum_lerum  Dev.lirum_larum.ram Dev.laj_lurim.lerum"
+            $actual | Should -BeExactly "lirum larum rum_lerum  Dev.lirum_larum.ram Dev.laj_lurim.lerum"
         }
 
         It " Should match expression with ToLower expression" {
@@ -254,15 +254,7 @@ Describe "Set-JsonVariables" {
     
     }
 
-    Context "Given a value with multiple substitutions " {
-    
-        It " should substitute both values correct" {
-            $result =  Set-JsonVariables Dev $configFile $secrets
 
-            $result | Where-Object { $_ -like "*lirum larum rum_lerum  dev.lirum_larum.ram someDevHostName.laj_lurim.lerum*"} | Should -BeTrue    
-        }
-    
-    }
 
     Context "Casing filter expressions" {
 
