@@ -132,7 +132,7 @@ deploy_to_dev:
 ```
 
 # Status
-This is still a pre-release and is being testes on a number of projects. A minimal set of features are implemented:
+This has been testet with various projects and is mature for produktion usage. A minimal set of features are implemented:
 1. Render variables as environment variables based on environment scope
 2. Substitute variables
 3. Substitute secrets
