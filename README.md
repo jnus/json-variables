@@ -134,7 +134,7 @@ deploy_to_dev:
 ```
 
 # Status
-This has been testet with various projects and is mature for produktion usage. A minimal set of features are implemented:
+This has been testet with various projects and is mature for production usage. A minimal set of features are implemented:
 1. Render variables as environment variables based on environment scope
 2. Substitute variables
 3. Substitute secrets
