@@ -41,7 +41,7 @@ Now in your environment specific job, you want to render this set of variables a
 
 ```yaml
 - name: Set environment specific variables
-  uses: jnus/json-variables@4d729bb7248e73b81440da6bee6824e6102d775c
+  uses: jnus/json-variables@4a442c701d13455259c65b315c7dce51d1c9edf7
   with:
     scope: Dev
     configFile: 'variables.minimal.json'
@@ -117,7 +117,7 @@ deploy_to_dev:
       url: ${{env.Url}}
     steps:
       - name: Set environment specific variables
-        uses: jnus/json-variables@4d729bb7248e73b81440da6bee6824e6102d775c
+        uses: jnus/json-variables@4a442c701d13455259c65b315c7dce51d1c9edf7
         with:
             scope: Dev
             configFile: 'variables.minimal.json'
