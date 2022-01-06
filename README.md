@@ -47,6 +47,8 @@ Now in your environment specific job, you want to render this set of variables a
     configFile: 'variables.minimal.json'
     secrets: '${{ toJson(secrets) }}'
 ```
+*Note: best practice is to always review the code for latest commit and only reference the action with a SHA and not a version. This ensures that the contributors cannot alter the code running in your pipelines. E.g.*
+```uses: jnus/json-variables@4a442c701d13455259c65b315c7dce51d1c9edf7```
  
 The environment specific variables defined variables.json will be created as environment variables ready to use for poking e.g. appsettings.json file or as parameters for deploying to misc. compute targets. 
 
