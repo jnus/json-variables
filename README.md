@@ -1,3 +1,4 @@
+[![Board Status](https://dev.azure.com/jaspernygaard/898d8e34-7b8d-4098-84f9-cc06801c9515/66a6f893-e271-4c80-9de9-7f7d2dfdb6e3/_apis/work/boardbadge/073cbcd9-8a9e-4651-83b2-b602eb5bfd07)](https://dev.azure.com/jaspernygaard/898d8e34-7b8d-4098-84f9-cc06801c9515/_boards/board/t/66a6f893-e271-4c80-9de9-7f7d2dfdb6e3/Microsoft.RequirementCategory)
 # GitHub Action - JSON Variables
 Are you tired of repeating and duplicating environment variables for environment specific deployment steps and having to maintain multiple workflows dependent on the same set of variables? The JSON variables action lets you define all you variable in a single json file, scope to environments and substitute/reuse in new variables, hence simplifying variable configuration maintenance.
 
