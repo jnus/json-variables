@@ -37,6 +37,7 @@ The format of the file should be:
 }
 ```
 
+this is a change
 
 Now in your environment specific job, you want to render this set of variables as environment variables, add the following action. The configFile parameter is the full path to the variable file, relative to the repository root path. Scope is the environment name, which is case sensitive. The secrets parameter need to be either a serialized json string of e.g. the secrets context object, or a user defined serialized object with the same structure:
 
